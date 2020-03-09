@@ -1,2 +1,12 @@
 debugger: true
 lang: "en_US"
+
+default-vault-size: 54
+
+
+
+guis:
+  player-vault:
+    title: "&8Vault: &e%vault_number%"
+    bordered: false
+    border-item: "LIME_STAINED_GLASS_PANE"

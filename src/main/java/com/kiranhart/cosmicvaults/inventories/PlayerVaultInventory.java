@@ -11,6 +11,7 @@ public class PlayerVaultInventory extends HartInventory{
 
     @Override
     public Inventory getInventory() {
+
         return null;
     }
 }
