@@ -1,0 +1,7 @@
+name: CosmicVaults
+version: ${project.version}
+main: com.kiranhart.cosmicvaults.Core
+api-version: 1.13
+authors: [Kiran Hart]
+description: Simply a replica of the vault system from CosmicPvP
+website: https://www.kiranhart.com

@@ -1,0 +1,8 @@
+prefix="&8[&bCosmicVaults&8]"
+no-permission="&cYou do not have permission to do that!"
+players-only="&cOnly players can use that command!"
+not-a-number="&cThat isn't a nunber, try again!"
+
+pv.locked="&cVault &b%vault_number%&c is currently locked!"
+pv.unlocked="&aVault &b%vault_number%&a has been unlocked!"
+pv.no-permission="&cYou do not have permission to open vault: &b%vault_number%"
