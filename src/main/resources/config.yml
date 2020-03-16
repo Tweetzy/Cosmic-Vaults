@@ -1,17 +1,15 @@
 debugger: true
 lang: "en_US"
+metrics: true
 
 default-vault-size: 54 #max 54 min 9
 default-select-menu-size: 54 #max 54 min 9
 disable-icon-selection: false
 disable-vault-selection-on-close: true
-cancel-word: "cancel"
 
 blocked-vault-items:
   - "BEDROCK:0"
   - "BARRIER:0"
-
-
 
 global-item:
   next-page:

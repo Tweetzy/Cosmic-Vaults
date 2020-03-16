@@ -7,9 +7,11 @@ package com.kiranhart.cosmicvaults.inventories;
 
 import com.kiranhart.cosmicvaults.Core;
 import com.kiranhart.cosmicvaults.api.CosmicVaultAPI;
+import com.kiranhart.cosmicvaults.api.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -46,6 +48,15 @@ public class PlayerVaultInventory extends HartInventory {
 
         Core.getInstance().getDataFile().saveConfig();
         Core.getInstance().getOpenedVault().remove(p.getUniqueId());
+    }
+
+    @Override
+    public void onClick(InventoryClickEvent e) {
+        Core.getInstance().getConfig().getStringList("blocked-vault-items").forEach(blockedItem -> {
+            if (e.getCurrentItem().getType() == XMaterial.matchXMaterial(blockedItem).get().parseMaterial()) {
+                e.setCancelled(true);
+            }
+        });
     }
 
     @Override

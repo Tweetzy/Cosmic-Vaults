@@ -18,6 +18,7 @@ public final class Core extends JavaPlugin {
 
     private static Core instance;
     private Locale locale;
+    private Metrics metrics;
 
     private ArrayList<ItemStack> vaultIcons;
 
@@ -60,7 +61,9 @@ public final class Core extends JavaPlugin {
         this.commandManager.init();
 
         // start metrics
-        Metrics metrics = new Metrics(this, 6789);
+        if (getConfig().getBoolean("metrics")) {
+            metrics = new Metrics(this, 6789);
+        }
     }
 
     @Override
