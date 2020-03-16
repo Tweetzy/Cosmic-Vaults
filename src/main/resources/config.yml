@@ -1,12 +1,98 @@
 debugger: true
 lang: "en_US"
 
-default-vault-size: 54
+default-vault-size: 54 #max 54 min 9
+default-select-menu-size: 54 #max 54 min 9
+disable-icon-selection: false
+disable-vault-selection-on-close: true
+cancel-word: "cancel"
+
+blocked-vault-items:
+  - "BEDROCK:0"
+  - "BARRIER:0"
 
 
+
+global-item:
+  next-page:
+    item: "ARROW"
+    name: "&eNext >>"
+    lore:
+      - "&7Click to go to next page."
+  prev-page:
+    item: "ARROW"
+    name: "&e<< Back"
+    lore:
+      - "&7Click to go back a page"
+  locked-item:
+    item: "RED_STAINED_GLASS_PANE"
+    name: "&c&lLocked Vault"
+    lore:
+      - "&7You don't have access to open"
+      - "&7this vault currently."
 
 guis:
+  vault-selection:
+    title: "&7Player Vaults"
+    default-item-name: "&b&lPV #{vaultnumber}"
+    default-item: "EMERALD"
+    lore:
+      - "&d/pv {vaultnumber}"
+      - ""
+      - "&7Left-Click to enter Vault"
+      - "&7Middle-Click to edit name"
+      - "&7Right-Click to edit icon"
   player-vault:
     title: "&8Vault: &e%vault_number%"
     bordered: false
     border-item: "LIME_STAINED_GLASS_PANE"
+  icon-selection:
+    title: "&7Select Vault Icon"
+    item-name: "&b%material_name%"
+    item-lore:
+      - "&7Click to select material."
+    items:
+      - "IRON_HELMET"
+      - "GOLD_HELMET"
+      - "DIAMOND_HELMET"
+      - "IRON_CHESTPLATE"
+      - "GOLD_CHESTPLATE"
+      - "DIAMOND_CHESTPLATE"
+      - "IRON_LEGGINGS"
+      - "GOLD_LEGGINGS"
+      - "DIAMOND_LEGGINGS"
+      - "IRON_BOOTS"
+      - "GOLD_BOOTS"
+      - "DIAMOND_BOOTS"
+      - "IRON_SWORD"
+      - "GOLD_SWORD"
+      - "DIAMOND_SWORD"
+      - "APPLE"
+      - "CAKE"
+      - "CARROT"
+      - "IRON_INGOT"
+      - "GOLD_INGOT"
+      - "DIAMOND"
+      - "EGG"
+      - "BOOK"
+      - "REDSTONE"
+      - "REDSTONE_BLOCK"
+      - "REPEATER"
+      - "SADDLE"
+      - "SAND"
+      - "TNT"
+      - "TORCH"
+      - "PACKED_ICE"
+      - "DISPENSER"
+      - "ICE"
+      - "OBSIDIAN"
+      - "SPONGE"
+      - "BEDROCK"
+      - "ENCHANTMENT_TABLE"
+      - "EMERALD"
+      - "BUCKET"
+      - "WATER_BUCKET"
+      - "LAVA_BUCKET"
+      - "GOLDEN_APPLE"
+      - "EXP_BOTTLE"
+      - "BED"

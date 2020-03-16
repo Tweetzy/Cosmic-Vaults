@@ -6,6 +6,10 @@ package com.kiranhart.cosmicvaults.commands;
 */
 
 import com.kiranhart.cosmicvaults.Core;
+import com.kiranhart.cosmicvaults.api.CosmicVaultAPI;
+import com.kiranhart.cosmicvaults.commands.subcommands.ReloadCommand;
+import com.kiranhart.cosmicvaults.inventories.PlayerVaultInventory;
+import com.kiranhart.cosmicvaults.inventories.VaultSelectionInventory;
 import com.kiranhart.cosmicvaults.statics.CosmicLang;
 import com.kiranhart.cosmicvaults.statics.CosmicPerm;
 import com.kiranhart.cosmicvaults.utils.Debugger;
@@ -27,14 +31,14 @@ public class CommandManager implements CommandExecutor {
 
     public void init() {
         Core.getInstance().getCommand(MAIN).setExecutor(this);
-
+        commands.add(new ReloadCommand());
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!sender.hasPermission(CosmicPerm.BASE)) {
-            Core.getInstance().getLocale().getMessage(CosmicLang.PREFIX).sendPrefixedMessage(sender);
+        if (!sender.hasPermission(CosmicPerm.BASE_COMMAND)) {
+            Core.getInstance().getLocale().getMessage(CosmicLang.NO_PERMISSION).sendPrefixedMessage(sender);
             return true;
         }
 
@@ -43,9 +47,24 @@ public class CommandManager implements CommandExecutor {
             if (args.length == 0) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
+                    p.openInventory(new VaultSelectionInventory(p).getInventory());
+                }
+                return true;
+            }
 
-                } else {
-                    Core.getInstance().getLocale().getMessage(CosmicLang.HELP_COMMAND).sendPrefixedMessage(sender);
+            if (CosmicVaultAPI.get().isInt(args[0])) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    if (Integer.parseInt(args[0]) <= 0) {
+                        Core.getInstance().getLocale().getMessage(CosmicLang.VAULT_ZERO).sendPrefixedMessage(sender);
+                        return true;
+                    }
+
+                    if (CosmicVaultAPI.canUseVault(p, Integer.parseInt(args[0]))) {
+                        p.openInventory(new PlayerVaultInventory(p, Integer.parseInt(args[0])).getInventory());
+                    } else {
+                        Core.getInstance().getLocale().getMessage(CosmicLang.VAULT_NO_PERMISSION).processPlaceholder("vault_number", Integer.parseInt(args[0])).sendPrefixedMessage(sender);
+                    }
                 }
                 return true;
             }

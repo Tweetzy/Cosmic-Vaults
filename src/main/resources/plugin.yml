@@ -5,3 +5,8 @@ api-version: 1.13
 authors: [Kiran Hart]
 description: Simply a replica of the vault system from CosmicPvP
 website: https://www.kiranhart.com
+
+commands:
+  playervaults:
+    description: Main command for the comsic vault plugin
+    aliases: [pv, vaults, myvault]
