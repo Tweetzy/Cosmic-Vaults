@@ -1,22 +1,33 @@
-package com.kiranhart.cosmicvaults;
+package ca.tweetzy.cosmicvaults;
 
-import com.kiranhart.cosmicvaults.api.CosmicVaultAPI;
-import com.kiranhart.cosmicvaults.api.HartInventoryListener;
-import com.kiranhart.cosmicvaults.commands.CommandManager;
-import com.kiranhart.cosmicvaults.locale.Locale;
-import com.kiranhart.cosmicvaults.utils.ConfigWrapper;
-import com.kiranhart.cosmicvaults.utils.Metrics;
+import ca.tweetzy.core.TweetyCore;
+import ca.tweetzy.core.TweetyPlugin;
+import ca.tweetzy.core.commands.CommandManager;
+import ca.tweetzy.core.core.PluginID;
+import ca.tweetzy.core.inventory.TInventoryEventListener;
+import ca.tweetzy.core.locale.Locale;
+import ca.tweetzy.core.utils.ConfigWrapper;
+import ca.tweetzy.core.utils.Metrics;
+import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
+import ca.tweetzy.cosmicvaults.commands.AdminCommand;
+import ca.tweetzy.cosmicvaults.commands.PlayerVaultCommand;
+import ca.tweetzy.cosmicvaults.commands.ReloadCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-public final class Core extends JavaPlugin {
+/**
+ * The current file has been created by Kiran Hart
+ * Date Created: 5/15/2020
+ * Time Created: 2:37 PM
+ * Usage of any code found within this class is prohibited unless given explicit permission otherwise.
+ */
+public class CosmicVaults extends TweetyPlugin {
 
-    private static Core instance;
+    private static CosmicVaults instance;
     private Locale locale;
     private Metrics metrics;
 
@@ -36,11 +47,18 @@ public final class Core extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        // Initialize Tweety Core
+        TweetyCore.registerPlugin(this, 3, "EMERALD");
+        // setup t-inventory
+        Bukkit.getServer().getPluginManager().registerEvents(new TInventoryEventListener(), this);
+
         // setup the default config
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
 
-        // setup the locale
+        // Set Prefix & Locale
+        TweetyCore.setPluginPrefix(getConfig().getString("lang"));
+
         new Locale(this, "en_US");
         this.locale = Locale.getLocale(getConfig().getString("lang"));
 
@@ -51,18 +69,15 @@ public final class Core extends JavaPlugin {
         this.dataFile = new ConfigWrapper(this, "", "Data.yml");
         this.dataFile.saveConfig();
 
-        Bukkit.getPluginManager().registerEvents(new HartInventoryListener(), this);
-
         // load vault icons
         CosmicVaultAPI.get().loadVaultIcons();
 
-        // setup the command manager
-        this.commandManager = new CommandManager();
-        this.commandManager.init();
+        this.commandManager = new CommandManager(this);
+        this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new ReloadCommand(), new AdminCommand());
 
         // start metrics
         if (getConfig().getBoolean("metrics")) {
-            metrics = new Metrics(this, 6789);
+            this.metrics = new Metrics(this, (int) PluginID.COSMIC_VAULTS.getbStatsID());
         }
     }
 
@@ -76,7 +91,7 @@ public final class Core extends JavaPlugin {
      *
      * @return the class instance
      */
-    public static Core getInstance() {
+    public static CosmicVaults getInstance() {
         return instance;
     }
 
@@ -93,7 +108,6 @@ public final class Core extends JavaPlugin {
     public ArrayList<ItemStack> getVaultIcons() {
         return vaultIcons;
     }
-
     /**
      * get the data file
      *

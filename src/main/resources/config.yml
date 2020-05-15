@@ -1,6 +1,7 @@
 debugger: true
 lang: "en_US"
 metrics: true
+prefix: "&8[&bCosmicVaults&8]"
 
 default-vault-size: 54 #max 54 min 9
 default-select-menu-size: 54 #max 54 min 9
@@ -41,12 +42,12 @@ guis:
       - "&7Middle-Click to edit name"
       - "&7Right-Click to edit icon"
   player-vault:
-    title: "&8Vault: &e%vault_number%"
+    title: "&8Vault: &e{vault_number}"
     bordered: false
     border-item: "LIME_STAINED_GLASS_PANE"
   icon-selection:
     title: "&7Select Vault Icon"
-    item-name: "&b%material_name%"
+    item-name: "&b{material_name}"
     item-lore:
       - "&7Click to select material."
     items:

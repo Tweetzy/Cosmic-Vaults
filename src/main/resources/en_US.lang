@@ -1,6 +1,3 @@
-prefix="&8[&bCosmicVaults&8]"
-nopermission="&cYou do not have permission to do that!"
-playersonly="&cOnly players can use that command!"
 notanumber="&cThat isn't a nunber, try again!"
 reloaded="&aAll files have been reloaded!"
 
@@ -8,9 +5,6 @@ vaultzero="&cYou cannot open vaults lower than 1"
 iconchanged="&aSet Vault &b%vault_number%&a icon to &b%item%"
 namechanged="&aVault #&b%vault_number%&a renamed to &b%vault_name%"
 
-command.invalid="&cThat is not a valid command!"
-command.help="&c/pv"
+player-offline="&cThe player &b%player%&c is not online currently."
 
-pv.locked="&cVault &b%vault_number%&c is currently locked!"
-pv.unlocked="&aVault &b%vault_number%&a has been unlocked!"
 pv.no-permission="&cYou do not have permission to open vault: &b%vault_number%"
