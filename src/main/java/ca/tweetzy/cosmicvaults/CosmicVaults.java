@@ -56,11 +56,8 @@ public class CosmicVaults extends TweetyPlugin {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
 
-        // Set Prefix & Locale
-        TweetyCore.setPluginPrefix(getConfig().getString("lang"));
-
         new Locale(this, "en_US");
-        this.locale = Locale.getLocale(getConfig().getString("lang"));
+        this.locale = Locale.getLocale(getConfig().getString("lang"), getConfig().getString("prefix"));
 
         this.vaultIcons = new ArrayList<>();
         this.openedVault = new HashMap<>();

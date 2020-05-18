@@ -127,18 +127,14 @@ public class CosmicVaultAPI {
     }
 
     public boolean canUseVault(Player p, int page) {
-        int max = 0;
-        if (p.isOp()) return true;
-        for (PermissionAttachmentInfo effectivePermission : p.getEffectivePermissions()) {
-            if (!effectivePermission.getPermission().startsWith("CosmicVaults.amount.")) continue;
-
-            String node[] = effectivePermission.getPermission().split("\\.");
-
-            if (NumberUtils.isInt(node[node.length - 1])) {
-                int num = Integer.parseInt(node[node.length - 1]);
-                if (num > max) max = num;
+        if (p.hasPermission("cosmicvaults.amount." + page)) {
+            return true;
+        }
+        for (int x = page; x <= 99; x++) {
+            if (p.hasPermission("cosmicvaults.amount." + x)) {
+                return true;
             }
         }
-        return (page <= max);
+        return false;
     }
 }
