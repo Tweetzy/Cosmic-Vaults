@@ -24,6 +24,7 @@ import java.util.List;
 public class IconSelectionGUI extends TInventory {
 
     private List<List<ItemStack>> chunks;
+    private int t =1;
 
     public IconSelectionGUI() {
         setPage(1);
