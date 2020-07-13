@@ -3,20 +3,18 @@ package ca.tweetzy.cosmicvaults;
 import ca.tweetzy.core.TweetyCore;
 import ca.tweetzy.core.TweetyPlugin;
 import ca.tweetzy.core.commands.CommandManager;
+import ca.tweetzy.core.configuration.Config;
 import ca.tweetzy.core.core.PluginID;
-import ca.tweetzy.core.inventory.TInventoryEventListener;
 import ca.tweetzy.core.locale.Locale;
-import ca.tweetzy.core.utils.ConfigWrapper;
 import ca.tweetzy.core.utils.Metrics;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.commands.AdminCommand;
 import ca.tweetzy.cosmicvaults.commands.PlayerVaultCommand;
-import ca.tweetzy.cosmicvaults.commands.ReloadCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -37,24 +35,21 @@ public class CosmicVaults extends TweetyPlugin {
     private HashMap<UUID, Integer> vaultedit;
 
     private CommandManager commandManager;
-    private ConfigWrapper dataFile;
+
+    Config dataFile = new Config(this, "Data.yml");
 
     @Override
-    public void onLoad() {
+    public void onPluginLoad() {
         instance = this;
     }
 
     @Override
-    public void onEnable() {
-
+    public void onPluginEnable() {
         // Initialize Tweety Core
         TweetyCore.registerPlugin(this, 3, "EMERALD");
-        // setup t-inventory
-        Bukkit.getServer().getPluginManager().registerEvents(new TInventoryEventListener(), this);
+        TweetyCore.initEvents(this);
 
-        // setup the default config
-        getConfig().options().copyDefaults(true);
-        saveDefaultConfig();
+
 
         new Locale(this, "en_US");
         this.locale = Locale.getLocale(getConfig().getString("lang"), getConfig().getString("prefix"));
@@ -63,14 +58,13 @@ public class CosmicVaults extends TweetyPlugin {
         this.openedVault = new HashMap<>();
         this.vaultedit = new HashMap<>();
 
-        this.dataFile = new ConfigWrapper(this, "", "Data.yml");
-        this.dataFile.saveConfig();
+        this.dataFile.load();
 
         // load vault icons
         CosmicVaultAPI.get().loadVaultIcons();
 
         this.commandManager = new CommandManager(this);
-        this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new ReloadCommand(), new AdminCommand());
+        this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new AdminCommand());
 
         // start metrics
         if (getConfig().getBoolean("metrics")) {
@@ -79,8 +73,18 @@ public class CosmicVaults extends TweetyPlugin {
     }
 
     @Override
-    public void onDisable() {
+    public void onPluginDisable() {
         instance = null;
+    }
+
+    @Override
+    public void onConfigReload() {
+
+    }
+
+    @Override
+    public List<Config> getExtraConfig() {
+        return null;
     }
 
     /**
@@ -105,12 +109,13 @@ public class CosmicVaults extends TweetyPlugin {
     public ArrayList<ItemStack> getVaultIcons() {
         return vaultIcons;
     }
+
     /**
      * get the data file
      *
      * @return the data file containing player data
      */
-    public ConfigWrapper getDataFile() {
+    public Config getDataFile() {
         return dataFile;
     }
 

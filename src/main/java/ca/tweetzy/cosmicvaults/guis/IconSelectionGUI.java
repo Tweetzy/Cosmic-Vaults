@@ -59,12 +59,12 @@ public class IconSelectionGUI extends TInventory {
 
         ItemStack is = e.getCurrentItem();
         int vault = CosmicVaults.getInstance().getVaultedit().get(p.getUniqueId());
-        String name = CosmicVaults.getInstance().getDataFile().getConfig().getString("players." + p.getUniqueId().toString() + "." + vault + ".name");
+        String name = CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + vault + ".name");
 
-        CosmicVaults.getInstance().getDataFile().getConfig().set("players." + p.getUniqueId().toString() + "." + vault + ".icon", XMaterial.matchXMaterial(is).parseMaterial().name());
-        CosmicVaults.getInstance().getDataFile().getConfig().set("players." + p.getUniqueId().toString() + "." + vault + ".name", name);
+        CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".icon", XMaterial.matchXMaterial(is).parseMaterial().name());
+        CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".name", name);
 
-        CosmicVaults.getInstance().getDataFile().saveConfig();
+        CosmicVaults.getInstance().getDataFile().save();
         CosmicVaults.getInstance().getVaultedit().remove(p.getUniqueId());
         p.openInventory(new VaultSelectionGUI(p).getInventory());
 

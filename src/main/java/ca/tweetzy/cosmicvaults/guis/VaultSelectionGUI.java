@@ -72,8 +72,8 @@ public class VaultSelectionGUI extends TInventory {
 
             if (e.getClick() == ClickType.MIDDLE) {
                 new AnvilGUI.Builder().onComplete((player, text) -> {
-                    CosmicVaults.getInstance().getDataFile().getConfig().set("players." + p.getUniqueId().toString() + "." + page + ".name", text);
-                    CosmicVaults.getInstance().getDataFile().saveConfig();
+                    CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + page + ".name", text);
+                    CosmicVaults.getInstance().getDataFile().save();
                     CosmicVaults.getInstance().getLocale().getMessage("namechanged").processPlaceholder("vault_number", page).processPlaceholder("vault_name", text).sendPrefixedMessage(p);
                     return AnvilGUI.Response.close();
                 }).text("Enter New Name").item(XMaterial.PAPER.parseItem()).plugin(CosmicVaults.getInstance()).preventClose().open(p);

@@ -1,16 +1,13 @@
 package ca.tweetzy.cosmicvaults.api;
 
 import ca.tweetzy.core.compatibility.XMaterial;
-import ca.tweetzy.core.utils.NumberUtils;
 import ca.tweetzy.core.utils.TextUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +22,8 @@ public class CosmicVaultAPI {
 
     private static CosmicVaultAPI instance;
 
-    private CosmicVaultAPI(){}
+    private CosmicVaultAPI() {
+    }
 
     public static CosmicVaultAPI get() {
         if (instance == null) {
@@ -38,7 +36,7 @@ public class CosmicVaultAPI {
         CosmicVaults.getInstance().getConfig().getStringList("guis.icon-selection.items").forEach(item -> {
             ItemStack stack = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
             ItemMeta meta = stack.getItemMeta();
-            meta.setDisplayName(TextUtils.formatText( CosmicVaults.getInstance().getConfig().getString("guis.icon-selection.item-name").replace("{material_name}", StringUtils.capitalize(stack.getType().name().toLowerCase().replace("_", " ")))));
+            meta.setDisplayName(TextUtils.formatText(CosmicVaults.getInstance().getConfig().getString("guis.icon-selection.item-name").replace("{material_name}", StringUtils.capitalize(stack.getType().name().toLowerCase().replace("_", " ")))));
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             List<String> lore = new ArrayList<>();
             CosmicVaults.getInstance().getConfig().getStringList("guis.icon-selection.item-lore").forEach(lines -> lore.add(TextUtils.formatText(lines)));
@@ -51,14 +49,14 @@ public class CosmicVaultAPI {
     /**
      * Used to get the vault item icon
      *
-     * @param p is the player
+     * @param p    is the player
      * @param page is the vault page
      * @return the page icon
      */
     public ItemStack vaultItem(Player p, int page) {
-        ItemStack stack = XMaterial.matchXMaterial((CosmicVaults.getInstance().getDataFile().getConfig().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getConfig().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item")).get().parseItem();
+        ItemStack stack = XMaterial.matchXMaterial((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item")).get().parseItem();
         ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(TextUtils.formatText((CosmicVaults.getInstance().getDataFile().getConfig().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getConfig().getString("players." + p.getUniqueId().toString() + "." + page + ".name") : CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item-name").replace("{vaultnumber}", String.valueOf(page))));
+        meta.setDisplayName(TextUtils.formatText((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".name") : CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item-name").replace("{vaultnumber}", String.valueOf(page))));
         List<String> lore = new ArrayList<>();
         CosmicVaults.getInstance().getConfig().getStringList("guis.vault-selection.lore").forEach(line -> {
             lore.add(TextUtils.formatText(line.replace("{vaultnumber}", String.valueOf(page))));

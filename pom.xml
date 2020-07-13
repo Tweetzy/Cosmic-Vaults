@@ -6,7 +6,7 @@
 
     <groupId>ca.tweetzy</groupId>
     <artifactId>CosmicVaults</artifactId>
-    <version>2.0.3</version>
+    <version>2.0.4</version>
 
     <build>
         <defaultGoal>clean install</defaultGoal>
@@ -101,7 +101,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>com.github.WesJD.AnvilGUI</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>e950f22</version>
+            <version>ef71db62ec</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

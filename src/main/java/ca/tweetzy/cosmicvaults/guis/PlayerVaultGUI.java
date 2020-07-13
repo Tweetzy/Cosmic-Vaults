@@ -35,17 +35,17 @@ public class PlayerVaultGUI extends TInventory {
     public Inventory getInventory() {
         Inventory inventory = Bukkit.createInventory(this, getSize(), getTitle());
 
-        if (CosmicVaults.getInstance().getDataFile().getConfig().contains("players." + this.player.getUniqueId().toString() + "." + vault)) {
+        if (CosmicVaults.getInstance().getDataFile().contains("players." + this.player.getUniqueId().toString() + "." + vault)) {
 
             // no contents
-            if (!CosmicVaults.getInstance().getDataFile().getConfig().contains("players." + this.player.getUniqueId().toString() + "." + vault + ".contents")) {
+            if (!CosmicVaults.getInstance().getDataFile().contains("players." + this.player.getUniqueId().toString() + "." + vault + ".contents")) {
                 return inventory;
             }
 
             // contents
-            for (String keys : CosmicVaults.getInstance().getDataFile().getConfig().getConfigurationSection("players." + this.player.getUniqueId().toString() + "." + vault + ".contents").getKeys(false)) {
+            for (String keys : CosmicVaults.getInstance().getDataFile().getConfigurationSection("players." + this.player.getUniqueId().toString() + "." + vault + ".contents").getKeys(false)) {
                 int slot = Integer.parseInt(keys);
-                inventory.setItem(slot, CosmicVaults.getInstance().getDataFile().getConfig().getItemStack("players." + this.player.getUniqueId().toString() + "." + vault + ".contents." + keys));
+                inventory.setItem(slot, CosmicVaults.getInstance().getDataFile().getItemStack("players." + this.player.getUniqueId().toString() + "." + vault + ".contents." + keys));
             }
 
         } else {
@@ -65,17 +65,17 @@ public class PlayerVaultGUI extends TInventory {
         String name = CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item-name").replace("{vaultnumber}", String.valueOf(vault));
         String icon = CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item");
 
-        if (!CosmicVaults.getInstance().getDataFile().getConfig().contains("players." + p.getUniqueId().toString() + "." + vault)) {
-            CosmicVaults.getInstance().getDataFile().getConfig().set("players." + p.getUniqueId().toString() + "." + vault + ".icon", icon);
-            CosmicVaults.getInstance().getDataFile().getConfig().set("players." + p.getUniqueId().toString() + "." + vault + ".name", TextUtils.formatText(name));
-            CosmicVaults.getInstance().getDataFile().saveConfig();
+        if (!CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + vault)) {
+            CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".icon", icon);
+            CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".name", TextUtils.formatText(name));
+            CosmicVaults.getInstance().getDataFile().save();
         }
 
         for (int i = 0; i < e.getInventory().getSize(); i++) {
-            CosmicVaults.getInstance().getDataFile().getConfig().set("players." + p.getUniqueId().toString() + "." + vault + ".contents." + i, e.getInventory().getItem(i));
+            CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".contents." + i, e.getInventory().getItem(i));
         }
 
-        CosmicVaults.getInstance().getDataFile().saveConfig();
+        CosmicVaults.getInstance().getDataFile().save();
         CosmicVaults.getInstance().getOpenedVault().remove(p.getUniqueId());
     }
 
