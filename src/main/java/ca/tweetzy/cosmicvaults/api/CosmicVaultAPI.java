@@ -33,17 +33,50 @@ public class CosmicVaultAPI {
     }
 
     public void loadVaultIcons() {
-        CosmicVaults.getInstance().getConfig().getStringList("guis.icon-selection.items").forEach(item -> {
+        Settings.GUI_ICON_SELECTION_ITEMS.getStringList().forEach(item -> {
             ItemStack stack = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
             ItemMeta meta = stack.getItemMeta();
-            meta.setDisplayName(TextUtils.formatText(CosmicVaults.getInstance().getConfig().getString("guis.icon-selection.item-name").replace("{material_name}", StringUtils.capitalize(stack.getType().name().toLowerCase().replace("_", " ")))));
+            meta.setDisplayName(TextUtils.formatText(Settings.GUI_ICON_SELECTION_ITEM_NAME.getString().replace("{material_name}", StringUtils.capitalize(stack.getType().name().toLowerCase().replace("_", " ")))));
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             List<String> lore = new ArrayList<>();
-            CosmicVaults.getInstance().getConfig().getStringList("guis.icon-selection.item-lore").forEach(lines -> lore.add(TextUtils.formatText(lines)));
+            Settings.GUI_ICON_SELECTION_ITEM_LORE.getStringList().forEach(lines -> lore.add(TextUtils.formatText(lines)));
             meta.setLore(lore);
             stack.setItemMeta(meta);
             CosmicVaults.getInstance().getVaultIcons().add(stack);
         });
+    }
+
+    public ItemStack _nextPage() {
+        ItemStack stack = XMaterial.matchXMaterial(Settings.GLOBAL_NEXT_PAGE_ITEM.getString()).get().parseItem();
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(TextUtils.formatText(Settings.GLOBAL_NEXT_PAGE_NAME.getString()));
+        List<String> lore = new ArrayList<>();
+        Settings.GLOBAL_NEXT_PAGE_LORE.getStringList().forEach(s -> lore.add(TextUtils.formatText(s)));
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    public ItemStack _prevPage() {
+        ItemStack stack = XMaterial.matchXMaterial(Settings.GLOBAL_PREV_PAGE_ITEM.getString()).get().parseItem();
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(TextUtils.formatText(Settings.GLOBAL_PREV_PAGE_NAME.getString()));
+        List<String> lore = new ArrayList<>();
+        Settings.GLOBAL_PREV_PAGE_LORE.getStringList().forEach(s -> lore.add(TextUtils.formatText(s)));
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    public ItemStack _locked() {
+        ItemStack stack = XMaterial.matchXMaterial(Settings.GLOBAL_LOCKED_ITEM_ITEM.getString()).get().parseItem();
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(TextUtils.formatText(Settings.GLOBAL_LOCKED_ITEM_NAME.getString()));
+        List<String> lore = new ArrayList<>();
+        Settings.GLOBAL_LOCKED_ITEM_LORE.getStringList().forEach(s -> lore.add(TextUtils.formatText(s)));
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
     }
 
     /**
@@ -54,11 +87,11 @@ public class CosmicVaultAPI {
      * @return the page icon
      */
     public ItemStack vaultItem(Player p, int page) {
-        ItemStack stack = XMaterial.matchXMaterial((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item")).get().parseItem();
+        ItemStack stack = XMaterial.matchXMaterial((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString()).get().parseItem();
         ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(TextUtils.formatText((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".name") : CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.default-item-name").replace("{vaultnumber}", String.valueOf(page))));
+        meta.setDisplayName(TextUtils.formatText((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".name") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_NAME.getString().replace("{vaultnumber}", String.valueOf(page))));
         List<String> lore = new ArrayList<>();
-        CosmicVaults.getInstance().getConfig().getStringList("guis.vault-selection.lore").forEach(line -> {
+        Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_LORE.getStringList().forEach(line -> {
             lore.add(TextUtils.formatText(line.replace("{vaultnumber}", String.valueOf(page))));
         });
         meta.setLore(lore);
@@ -73,7 +106,7 @@ public class CosmicVaultAPI {
      * @return the max selection a player can have
      */
     public int getMaxSelectionMenu(Player p) {
-        int size = CosmicVaults.getInstance().getConfig().getInt("default-select-menu-size");
+        int size = Settings.DEFAULT_SELECT_MENU_SIZE.getInt();
         if (p.hasPermission("cosmicvaults.selectionsize.9")) {
             size = 9;
         }
@@ -102,7 +135,7 @@ public class CosmicVaultAPI {
      * @return the max size a player can have
      */
     public int getMaxSize(Player p) {
-        int size = CosmicVaults.getInstance().getConfig().getInt("default-vault-size");
+        int size = Settings.DEFAULT_VAULT_SIZE.getInt();
         if (p.hasPermission("cosmicvaults.size.9")) {
             size = 9;
         }

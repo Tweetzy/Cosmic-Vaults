@@ -5,6 +5,7 @@ import ca.tweetzy.core.inventory.TInventory;
 import ca.tweetzy.core.utils.items.ItemUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
+import ca.tweetzy.cosmicvaults.api.Settings;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -26,7 +27,7 @@ public class VaultSelectionGUI extends TInventory {
         this.player = player;
         setDynamic(false);
         setRows(CosmicVaultAPI.get().getMaxSelectionMenu(this.player) / 9);
-        setTitle(CosmicVaults.getInstance().getConfig().getString("guis.vault-selection.title"));
+        setTitle(Settings.GUI_VAULT_SELECTION_TITLE.getString());
     }
 
     @Override
@@ -40,7 +41,7 @@ public class VaultSelectionGUI extends TInventory {
             if (CosmicVaultAPI.get().canUseVault(this.player, vault)) {
                 inventory.setItem(slot, CosmicVaultAPI.get().vaultItem(this.player, vault));
             } else {
-                inventory.setItem(slot, ItemUtils.createConfigItem(CosmicVaults.getInstance().getConfig(), "global-item.locked-item"));
+                inventory.setItem(slot, CosmicVaultAPI.get()._locked());
             }
 
             slot++;
@@ -65,14 +66,23 @@ public class VaultSelectionGUI extends TInventory {
             }
 
             if (e.getClick() == ClickType.LEFT) {
-                p.openInventory(new PlayerVaultGUI(p, page).getInventory());
-                CosmicVaults.getInstance().getOpenedVault().put(p.getUniqueId(), page);
+                if (CosmicVaults.getInstance().getOpenedVault().containsKey(p.getUniqueId())) {
+                    CosmicVaults.getInstance().getLocale().getMessage("vaultopenalready").sendPrefixedMessage(p);
+                } else {
+                    p.openInventory(new PlayerVaultGUI(p, page).getInventory());
+                    CosmicVaults.getInstance().getOpenedVault().put(p.getUniqueId(), page);
+                }
                 return;
             }
 
             if (e.getClick() == ClickType.MIDDLE) {
                 new AnvilGUI.Builder().onComplete((player, text) -> {
                     CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + page + ".name", text);
+
+                    if (!CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page + ".icon")) {
+                        CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + page + ".icon", Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString());
+                    }
+
                     CosmicVaults.getInstance().getDataFile().save();
                     CosmicVaults.getInstance().getLocale().getMessage("namechanged").processPlaceholder("vault_number", page).processPlaceholder("vault_name", text).sendPrefixedMessage(p);
                     return AnvilGUI.Response.close();
@@ -80,7 +90,7 @@ public class VaultSelectionGUI extends TInventory {
             }
 
             if (e.getClick() == ClickType.RIGHT) {
-                if (CosmicVaults.getInstance().getConfig().getBoolean("disable-icon-selection")) {
+                if (Settings.DISABLE_ICON_SELECTION.getBoolean()) {
                     return;
                 }
 

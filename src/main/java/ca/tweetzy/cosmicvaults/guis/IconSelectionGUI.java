@@ -4,6 +4,8 @@ import ca.tweetzy.core.compatibility.XMaterial;
 import ca.tweetzy.core.inventory.TInventory;
 import ca.tweetzy.core.utils.items.ItemUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
+import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
+import ca.tweetzy.cosmicvaults.api.Settings;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -24,11 +26,10 @@ import java.util.List;
 public class IconSelectionGUI extends TInventory {
 
     private List<List<ItemStack>> chunks;
-    private int t =1;
 
     public IconSelectionGUI() {
         setPage(1);
-        setTitle(CosmicVaults.getInstance().getConfig().getString("guis.icon-selection.title"));
+        setTitle(Settings.GUI_ICON_SELECTION_TITLE.getString());
 
         chunks = Lists.partition(CosmicVaults.getInstance().getVaultIcons(), 45);
 
@@ -46,8 +47,8 @@ public class IconSelectionGUI extends TInventory {
         chunks.get(this.page - 1).forEach(item -> inventory.setItem(inventory.firstEmpty(), item));
 
         if (chunks.get(this.page - 1).size() >= 54) {
-            inventory.setItem(48, ItemUtils.createConfigItem(CosmicVaults.getInstance().getConfig(), "global-item.prev-page"));
-            inventory.setItem(50, ItemUtils.createConfigItem(CosmicVaults.getInstance().getConfig(), "global-item.next-page"));
+            inventory.setItem(48, CosmicVaultAPI.get()._prevPage());
+            inventory.setItem(50, CosmicVaultAPI.get()._nextPage());
         }
 
         return inventory;

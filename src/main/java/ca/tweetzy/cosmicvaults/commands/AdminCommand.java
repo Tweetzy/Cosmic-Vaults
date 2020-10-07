@@ -50,9 +50,10 @@ public class AdminCommand extends AbstractCommand {
         }
 
         CosmicVaults.getInstance().getOpenedVault().remove(target.getUniqueId());
+        CosmicVaults.getInstance().getOpenedVault().put(target.getUniqueId(), Integer.parseInt(args[1]));
+        CosmicVaults.getInstance().getAdminEdit().put(p.getUniqueId(), target.getUniqueId());
 
-        CosmicVaults.getInstance().getOpenedVault().put(p.getUniqueId(), Integer.parseInt(args[1]));
-        p.openInventory(new PlayerVaultGUI(target, Integer.parseInt(args[1])).getInventory());
+        p.openInventory(new PlayerVaultGUI(target, Integer.parseInt(args[1]), true).getInventory());
 
         return ReturnType.SUCCESS;
     }

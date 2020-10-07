@@ -8,6 +8,7 @@ import ca.tweetzy.core.core.PluginID;
 import ca.tweetzy.core.locale.Locale;
 import ca.tweetzy.core.utils.Metrics;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
+import ca.tweetzy.cosmicvaults.api.Settings;
 import ca.tweetzy.cosmicvaults.commands.AdminCommand;
 import ca.tweetzy.cosmicvaults.commands.PlayerVaultCommand;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +32,7 @@ public class CosmicVaults extends TweetyPlugin {
 
     private ArrayList<ItemStack> vaultIcons;
 
+    private HashMap<UUID, UUID> adminEdit;
     private HashMap<UUID, Integer> openedVault;
     private HashMap<UUID, Integer> vaultedit;
 
@@ -49,12 +51,13 @@ public class CosmicVaults extends TweetyPlugin {
         TweetyCore.registerPlugin(this, 3, "EMERALD");
         TweetyCore.initEvents(this);
 
-
+        Settings.setup();
 
         new Locale(this, "en_US");
-        this.locale = Locale.getLocale(getConfig().getString("lang"), getConfig().getString("prefix"));
+        this.locale = Locale.getLocale(Settings.LANG.getString(), Settings.PREFIX.getString());
 
         this.vaultIcons = new ArrayList<>();
+        this.adminEdit = new HashMap<>();
         this.openedVault = new HashMap<>();
         this.vaultedit = new HashMap<>();
 
@@ -67,7 +70,7 @@ public class CosmicVaults extends TweetyPlugin {
         this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new AdminCommand());
 
         // start metrics
-        if (getConfig().getBoolean("metrics")) {
+        if (Settings.METRICS.getBoolean()) {
             this.metrics = new Metrics(this, (int) PluginID.COSMIC_VAULTS.getbStatsID());
         }
     }
@@ -125,5 +128,9 @@ public class CosmicVaults extends TweetyPlugin {
 
     public HashMap<UUID, Integer> getVaultedit() {
         return vaultedit;
+    }
+
+    public HashMap<UUID, UUID> getAdminEdit() {
+        return adminEdit;
     }
 }

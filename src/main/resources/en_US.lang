@@ -4,6 +4,7 @@ reloaded="&aAll files have been reloaded!"
 vaultzero="&cYou cannot open vaults lower than 1"
 iconchanged="&aSet Vault &b%vault_number%&a icon to &b%item%"
 namechanged="&aVault #&b%vault_number%&a renamed to &b%vault_name%"
+vaultopenalready="&cThat vault is already opened by someone!"
 
 player-offline="&cThe player &b%player%&c is not online currently."
 
