@@ -3,14 +3,16 @@ package ca.tweetzy.cosmicvaults;
 import ca.tweetzy.core.TweetyCore;
 import ca.tweetzy.core.TweetyPlugin;
 import ca.tweetzy.core.commands.CommandManager;
+import ca.tweetzy.core.compatibility.ServerVersion;
 import ca.tweetzy.core.configuration.Config;
 import ca.tweetzy.core.core.PluginID;
-import ca.tweetzy.core.locale.Locale;
+import ca.tweetzy.core.gui.GuiManager;
 import ca.tweetzy.core.utils.Metrics;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.api.Settings;
 import ca.tweetzy.cosmicvaults.commands.AdminCommand;
 import ca.tweetzy.cosmicvaults.commands.PlayerVaultCommand;
+import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -26,19 +28,31 @@ import java.util.UUID;
  */
 public class CosmicVaults extends TweetyPlugin {
 
+    @Getter
     private static CosmicVaults instance;
-    private Locale locale;
-    private Metrics metrics;
 
-    private ArrayList<ItemStack> vaultIcons;
+    @Getter
+    private final GuiManager guiManager = new GuiManager(this);
 
-    private HashMap<UUID, UUID> adminEdit;
-    private HashMap<UUID, Integer> openedVault;
-    private HashMap<UUID, Integer> vaultedit;
+    @Getter
+    private final Config data = new Config(this, "Data.yml");
 
+    @Getter
     private CommandManager commandManager;
 
-    Config dataFile = new Config(this, "Data.yml");
+    @Getter
+    private final ArrayList<ItemStack> vaultIcons = new ArrayList<>();
+
+    @Getter
+    private final HashMap<UUID, UUID> adminEdit = new HashMap<>();
+
+    @Getter
+    private final HashMap<UUID, Integer> openedVault = new HashMap<>();
+
+    @Getter
+    private final HashMap<UUID, Integer> vaultEdit = new HashMap<>();
+
+    protected Metrics metrics;
 
     @Override
     public void onPluginLoad() {
@@ -49,30 +63,32 @@ public class CosmicVaults extends TweetyPlugin {
     public void onPluginEnable() {
         // Initialize Tweety Core
         TweetyCore.registerPlugin(this, 3, "EMERALD");
-        TweetyCore.initEvents(this);
 
+        // Stop the plugin if the server version is not 1.8 or higher
+        if (ServerVersion.isServerVersionAtOrBelow(ServerVersion.V1_7)) {
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        // Setup the settings file
         Settings.setup();
 
-        new Locale(this, "en_US");
-        this.locale = Locale.getLocale(Settings.LANG.getString(), Settings.PREFIX.getString());
+        // Setup the locale
+        setLocale(Settings.LANG.getString(), false);
 
-        this.vaultIcons = new ArrayList<>();
-        this.adminEdit = new HashMap<>();
-        this.openedVault = new HashMap<>();
-        this.vaultedit = new HashMap<>();
+        // Load the data file
+        this.data.load();
 
-        this.dataFile.load();
-
-        // load vault icons
+        // Guis
+        this.guiManager.init();
         CosmicVaultAPI.get().loadVaultIcons();
 
+        // Commands
         this.commandManager = new CommandManager(this);
         this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new AdminCommand());
 
         // start metrics
-        if (Settings.METRICS.getBoolean()) {
-            this.metrics = new Metrics(this, (int) PluginID.COSMIC_VAULTS.getbStatsID());
-        }
+        this.metrics = new Metrics(this, (int) PluginID.COSMIC_VAULTS.getbStatsID());
     }
 
     @Override
@@ -88,49 +104,5 @@ public class CosmicVaults extends TweetyPlugin {
     @Override
     public List<Config> getExtraConfig() {
         return null;
-    }
-
-    /**
-     * Get the instance of the main class extending JavaPlugin
-     *
-     * @return the class instance
-     */
-    public static CosmicVaults getInstance() {
-        return instance;
-    }
-
-    /**
-     * @return the locale instance
-     */
-    public Locale getLocale() {
-        return locale;
-    }
-
-    /**
-     * @return a list of all the loaded vault icons
-     */
-    public ArrayList<ItemStack> getVaultIcons() {
-        return vaultIcons;
-    }
-
-    /**
-     * get the data file
-     *
-     * @return the data file containing player data
-     */
-    public Config getDataFile() {
-        return dataFile;
-    }
-
-    public HashMap<UUID, Integer> getOpenedVault() {
-        return openedVault;
-    }
-
-    public HashMap<UUID, Integer> getVaultedit() {
-        return vaultedit;
-    }
-
-    public HashMap<UUID, UUID> getAdminEdit() {
-        return adminEdit;
     }
 }

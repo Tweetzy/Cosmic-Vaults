@@ -1,16 +1,16 @@
 package ca.tweetzy.cosmicvaults.guis;
 
 import ca.tweetzy.core.compatibility.XMaterial;
-import ca.tweetzy.core.inventory.TInventory;
+import ca.tweetzy.core.gui.Gui;
+import ca.tweetzy.core.utils.PlayerUtils;
 import ca.tweetzy.core.utils.TextUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.api.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.PlayerInventory;
 
 /**
  * The current file has been created by Kiran Hart
@@ -18,20 +18,14 @@ import org.bukkit.inventory.Inventory;
  * Time Created: 3:22 PM
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise.
  */
-public class PlayerVaultGUI extends TInventory {
+public class PlayerVaultGUI extends Gui {
 
-    private Player player;
-    private int vault;
-    private boolean adminView;
+    Player player;
+    int vault;
+    boolean adminView;
 
     public PlayerVaultGUI(Player player, int vault) {
-        this.player = player;
-        this.vault = vault;
-        this.adminView = false;
-
-        setTitle(Settings.GUI_PLAYER_VAULT_TITLE.getString().replace("{vault_number}", String.valueOf(vault)));
-        setPage(1);
-        setRows(CosmicVaultAPI.get().getMaxSize(player) / 9);
+        this(player, vault, false);
     }
 
     public PlayerVaultGUI(Player player, int vault, boolean adminView) {
@@ -39,87 +33,91 @@ public class PlayerVaultGUI extends TInventory {
         this.vault = vault;
         this.adminView = adminView;
 
-        setTitle("&4" + Settings.GUI_PLAYER_VAULT_TITLE.getString().replace("{vault_number}", String.valueOf(vault)));
-        setPage(1);
+        setTitle(TextUtils.formatText(Settings.GUI_PLAYER_VAULT_TITLE.getString().replace("{vault_number}", String.valueOf(vault))));
         setRows(CosmicVaultAPI.get().getMaxSize(player) / 9);
-    }
+        setAcceptsItems(true);
+        setUnlockedRange(0, 89);
 
-    @Override
-    public Inventory getInventory() {
-        Inventory inventory = Bukkit.createInventory(this, getSize(), getTitle());
+        setOnClose(close -> {
+            String name = Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_NAME.getString().replace("{vaultnumber}", String.valueOf(this.vault));
+            String icon = Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString();
 
-        if (CosmicVaults.getInstance().getDataFile().contains("players." + this.player.getUniqueId().toString() + "." + vault)) {
+            if (!this.adminView) {
+                if (!CosmicVaults.getInstance().getOpenedVault().containsKey(this.player.getUniqueId())) {
+                    return;
+                }
 
-            // no contents
-            if (!CosmicVaults.getInstance().getDataFile().contains("players." + this.player.getUniqueId().toString() + "." + vault + ".contents")) {
-                return inventory;
-            }
+                if (!CosmicVaults.getInstance().getData().contains("players." + this.player.getUniqueId().toString() + "." + vault)) {
+                    CosmicVaults.getInstance().getData().set("players." + this.player.getUniqueId().toString() + "." + vault + ".icon", icon);
+                    CosmicVaults.getInstance().getData().set("players." + this.player.getUniqueId().toString() + "." + vault + ".name", TextUtils.formatText(name));
+                    CosmicVaults.getInstance().getData().save();
+                }
 
-            // contents
-            for (String keys : CosmicVaults.getInstance().getDataFile().getConfigurationSection("players." + this.player.getUniqueId().toString() + "." + vault + ".contents").getKeys(false)) {
-                int slot = Integer.parseInt(keys);
-                inventory.setItem(slot, CosmicVaults.getInstance().getDataFile().getItemStack("players." + this.player.getUniqueId().toString() + "." + vault + ".contents." + keys));
-            }
+                for (int i = 0; i < getRows() * 9; i++) {
+                    int finalI = i;
+                    Settings.BLOCKED_ITEMS.getStringList().forEach(blocked -> {
+                        if (getItem(finalI) != null && getItem(finalI).getType() != XMaterial.AIR.parseMaterial()) {
+                            if (getItem(finalI).getType() == XMaterial.matchXMaterial(blocked).get().parseMaterial()) {
+                                PlayerUtils.giveItem(close.player, getItem(finalI));
+                                setItem(finalI, XMaterial.AIR.parseItem());
+                            }
+                        }
 
-        } else {
-            return inventory;
-        }
-        return inventory;
-    }
+                        CosmicVaults.getInstance().getData().set("players." + this.player.getUniqueId().toString() + "." + vault + ".contents." + finalI, getItem(finalI));
+                    });
+                }
 
-    @Override
-    public void onClose(InventoryCloseEvent e) {
-        Player p = (Player) e.getPlayer();
+                CosmicVaults.getInstance().getData().save();
+                CosmicVaults.getInstance().getOpenedVault().remove(this.player.getUniqueId());
 
-        String name = Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_NAME.getString().replace("{vaultnumber}", String.valueOf(vault));
-        String icon = Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString();;
+            } else {
+                if (!CosmicVaults.getInstance().getAdminEdit().containsKey(this.player.getUniqueId())) {
+                    return;
+                }
 
-        if (!adminView) {
-            if (!CosmicVaults.getInstance().getOpenedVault().containsKey(p.getUniqueId())) {
-                return;
-            }
+                Player target = Bukkit.getPlayer(CosmicVaults.getInstance().getAdminEdit().get(this.player.getUniqueId()));
 
-            if (!CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + vault)) {
-                CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".icon", icon);
-                CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".name", TextUtils.formatText(name));
-                CosmicVaults.getInstance().getDataFile().save();
-            }
+                if (!CosmicVaults.getInstance().getData().contains("players." + target.getUniqueId().toString() + "." + vault)) {
+                    CosmicVaults.getInstance().getData().set("players." + target.getUniqueId().toString() + "." + vault + ".icon", icon);
+                    CosmicVaults.getInstance().getData().set("players." + target.getUniqueId().toString() + "." + vault + ".name", TextUtils.formatText(name));
+                    CosmicVaults.getInstance().getData().save();
+                }
 
-            for (int i = 0; i < e.getInventory().getSize(); i++) {
-                CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".contents." + i, e.getInventory().getItem(i));
-            }
+                for (int i = 0; i < getRows() * 9; i++) {
+                    int finalI = i;
+                    Settings.BLOCKED_ITEMS.getStringList().forEach(blocked -> {
+                        if (getItem(finalI) != null && getItem(finalI).getType() != XMaterial.AIR.parseMaterial()) {
+                            if (getItem(finalI).getType() == XMaterial.matchXMaterial(blocked).get().parseMaterial()) {
+                                PlayerUtils.giveItem(close.player, getItem(finalI));
+                                setItem(finalI, XMaterial.AIR.parseItem());
+                            }
+                        }
 
-            CosmicVaults.getInstance().getDataFile().save();
-            CosmicVaults.getInstance().getOpenedVault().remove(p.getUniqueId());
-        } else {
-            if (!CosmicVaults.getInstance().getAdminEdit().containsKey(p.getUniqueId())) {
-                return;
-            }
+                        CosmicVaults.getInstance().getData().set("players." + target.getUniqueId().toString() + "." + vault + ".contents." + finalI, getItem(finalI));
+                    });
+                }
 
-            Player target = Bukkit.getPlayer(CosmicVaults.getInstance().getAdminEdit().get(p.getUniqueId()));
-
-            if (!CosmicVaults.getInstance().getDataFile().contains("players." + target.getUniqueId().toString() + "." + vault)) {
-                CosmicVaults.getInstance().getDataFile().set("players." + target.getUniqueId().toString() + "." + vault + ".icon", icon);
-                CosmicVaults.getInstance().getDataFile().set("players." + target.getUniqueId().toString() + "." + vault + ".name", TextUtils.formatText(name));
-                CosmicVaults.getInstance().getDataFile().save();
-            }
-
-            for (int i = 0; i < e.getInventory().getSize(); i++) {
-                CosmicVaults.getInstance().getDataFile().set("players." + target.getUniqueId().toString() + "." + vault + ".contents." + i, e.getInventory().getItem(i));
-            }
-
-            CosmicVaults.getInstance().getDataFile().save();
-            CosmicVaults.getInstance().getOpenedVault().remove(target.getUniqueId());
-            CosmicVaults.getInstance().getAdminEdit().remove(p.getUniqueId());
-        }
-    }
-
-    @Override
-    public void onClick(InventoryClickEvent e) {
-        Settings.BLOCKED_ITEMS.getStringList().forEach(blockedItem -> {
-            if (e.getCurrentItem().getType() == XMaterial.matchXMaterial(blockedItem).get().parseMaterial()) {
-                e.setCancelled(true);
+                CosmicVaults.getInstance().getData().save();
+                CosmicVaults.getInstance().getOpenedVault().remove(target.getUniqueId());
+                CosmicVaults.getInstance().getAdminEdit().remove(this.player.getUniqueId());
             }
         });
+
+        draw();
+    }
+
+    private void draw() {
+        if (!CosmicVaults.getInstance().getData().contains("players." + this.player.getUniqueId().toString() + "." + this.vault)) {
+            return;
+        }
+
+        if (!CosmicVaults.getInstance().getData().contains("players." + this.player.getUniqueId().toString() + "." + this.vault + ".contents")) {
+            return;
+        }
+
+        for (String keys : CosmicVaults.getInstance().getData().getConfigurationSection("players." + this.player.getUniqueId().toString() + "." + this.vault + ".contents").getKeys(false)) {
+            int slot = Integer.parseInt(keys);
+            setItem(slot, CosmicVaults.getInstance().getData().getItemStack("players." + this.player.getUniqueId().toString() + "." + this.vault + ".contents." + keys));
+        }
     }
 }

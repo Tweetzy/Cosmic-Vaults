@@ -1,3 +1,6 @@
+general:
+    prefix: "&8[&bCosmicVaults&8]"
+
 notanumber="&cThat isn't a nunber, try again!"
 reloaded="&aAll files have been reloaded!"
 

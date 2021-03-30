@@ -19,8 +19,6 @@ public class Settings {
 
     public static final ConfigSetting DEBUGGER = new ConfigSetting(config, "debugger", true, "Use the debugger?");
     public static final ConfigSetting LANG = new ConfigSetting(config, "lang", "en_US", "Default language file");
-    public static final ConfigSetting METRICS = new ConfigSetting(config, "metrics", true, "Should the plugin use metrics?", "It simply allows me to see how many servers", "are currently using the item tags plugin.");
-    public static final ConfigSetting PREFIX = new ConfigSetting(config, "prefix", "&8[&bCosmicVaults&8]", "The prefix that will be shown in front of messages.");
 
     public static final ConfigSetting DEFAULT_VAULT_SIZE = new ConfigSetting(config, "default vault size", 54, "Max is 54, Min is 9. Has to be a multiple of 9");
     public static final ConfigSetting DEFAULT_SELECT_MENU_SIZE = new ConfigSetting(config, "default select menu size", 54, "Max is 54, Min is 9. Has to be a multiple of 9");

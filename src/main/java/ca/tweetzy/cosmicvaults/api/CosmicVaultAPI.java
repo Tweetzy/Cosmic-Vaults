@@ -87,9 +87,9 @@ public class CosmicVaultAPI {
      * @return the page icon
      */
     public ItemStack vaultItem(Player p, int page) {
-        ItemStack stack = XMaterial.matchXMaterial((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString()).get().parseItem();
+        ItemStack stack = XMaterial.matchXMaterial((CosmicVaults.getInstance().getData().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getData().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString()).get().parseItem();
         ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(TextUtils.formatText((CosmicVaults.getInstance().getDataFile().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + page + ".name") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_NAME.getString().replace("{vaultnumber}", String.valueOf(page))));
+        meta.setDisplayName(TextUtils.formatText((CosmicVaults.getInstance().getData().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getData().getString("players." + p.getUniqueId().toString() + "." + page + ".name") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_NAME.getString().replace("{vaultnumber}", String.valueOf(page))));
         List<String> lore = new ArrayList<>();
         Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_LORE.getStringList().forEach(line -> {
             lore.add(TextUtils.formatText(line.replace("{vaultnumber}", String.valueOf(page))));

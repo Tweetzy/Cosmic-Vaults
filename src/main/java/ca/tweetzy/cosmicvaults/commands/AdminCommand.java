@@ -1,9 +1,8 @@
 package ca.tweetzy.cosmicvaults.commands;
 
 import ca.tweetzy.core.commands.AbstractCommand;
-import ca.tweetzy.core.inventory.TInventory;
+import ca.tweetzy.core.gui.Gui;
 import ca.tweetzy.core.utils.NumberUtils;
-import ca.tweetzy.core.utils.PlayerUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.guis.PlayerVaultGUI;
 import org.bukkit.Bukkit;
@@ -45,7 +44,7 @@ public class AdminCommand extends AbstractCommand {
         Player target = Bukkit.getPlayerExact(args[0]);
 
         assert target != null;
-        if (target.getOpenInventory().getTopInventory().getHolder() instanceof TInventory) {
+        if (target.getOpenInventory().getTopInventory().getHolder() instanceof Gui) {
             target.closeInventory();
         }
 
@@ -53,7 +52,7 @@ public class AdminCommand extends AbstractCommand {
         CosmicVaults.getInstance().getOpenedVault().put(target.getUniqueId(), Integer.parseInt(args[1]));
         CosmicVaults.getInstance().getAdminEdit().put(p.getUniqueId(), target.getUniqueId());
 
-        p.openInventory(new PlayerVaultGUI(target, Integer.parseInt(args[1]), true).getInventory());
+        CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(target, Integer.parseInt(args[1]), true));
 
         return ReturnType.SUCCESS;
     }

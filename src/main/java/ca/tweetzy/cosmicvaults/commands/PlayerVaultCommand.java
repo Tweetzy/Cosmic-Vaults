@@ -32,7 +32,7 @@ public class PlayerVaultCommand extends AbstractCommand {
 
             if (args.length == 0) {
                 // open selection gui
-                p.openInventory(new VaultSelectionGUI(p).getInventory());
+                CosmicVaults.getInstance().getGuiManager().showGUI(p, new VaultSelectionGUI(p));
                 return ReturnType.SUCCESS;
             }
 
@@ -47,7 +47,7 @@ public class PlayerVaultCommand extends AbstractCommand {
                         if (CosmicVaults.getInstance().getOpenedVault().containsKey(p.getUniqueId())) {
                             CosmicVaults.getInstance().getLocale().getMessage("vaultopenalready").sendPrefixedMessage(p);
                         } else {
-                            p.openInventory(new PlayerVaultGUI(p, Integer.parseInt(args[0])).getInventory());
+                            CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(p, Integer.parseInt(args[0])));
                             CosmicVaults.getInstance().getOpenedVault().put(p.getUniqueId(), Integer.parseInt(args[0]));
                         }
                     } else {

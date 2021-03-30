@@ -1,21 +1,17 @@
 package ca.tweetzy.cosmicvaults.guis;
 
 import ca.tweetzy.core.compatibility.XMaterial;
-import ca.tweetzy.core.inventory.TInventory;
-import ca.tweetzy.core.utils.items.ItemUtils;
+import ca.tweetzy.core.gui.Gui;
+import ca.tweetzy.core.utils.TextUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.api.Settings;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The current file has been created by Kiran Hart
@@ -23,59 +19,46 @@ import java.util.List;
  * Time Created: 3:13 PM
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise.
  */
-public class IconSelectionGUI extends TInventory {
+public class IconSelectionGUI extends Gui {
 
-    private List<List<ItemStack>> chunks;
+    final List<ItemStack> icons;
 
     public IconSelectionGUI() {
-        setPage(1);
-        setTitle(Settings.GUI_ICON_SELECTION_TITLE.getString());
+        this.icons = CosmicVaults.getInstance().getVaultIcons();
+        setTitle(TextUtils.formatText(Settings.GUI_ICON_SELECTION_TITLE.getString()));
+        setAcceptsItems(false);
 
-        chunks = Lists.partition(CosmicVaults.getInstance().getVaultIcons(), 45);
+        if (this.icons.size() <= 9) setRows(1);
+        if (this.icons.size() >= 10 && this.icons.size() <= 18) setRows(2);
+        if (this.icons.size() >= 19 && this.icons.size() <= 27) setRows(3);
+        if (this.icons.size() >= 28 && this.icons.size() <= 36) setRows(4);
+        if (this.icons.size() >= 37 && this.icons.size() <= 45) setRows(5);
+        if (this.icons.size() >= 54) setRows(6);
 
-        if (chunks.get(getPage() - 1).size() <= 9) setRows(1);
-        if (chunks.get(getPage() - 1).size() >= 10 && chunks.get(getPage() - 1).size() <= 18) setRows(2);
-        if (chunks.get(getPage() - 1).size() >= 19 && chunks.get(getPage() - 1).size() <= 27) setRows(3);
-        if (chunks.get(getPage() - 1).size() >= 28 && chunks.get(getPage() - 1).size() <= 36) setRows(4);
-        if (chunks.get(getPage() - 1).size() >= 37 && chunks.get(getPage() - 1).size() <= 45) setRows(5);
-        if (chunks.get(getPage() - 1).size() >= 54) setRows(6);
+        setOnClose(close -> close.manager.showGUI(close.player, new VaultSelectionGUI(close.player)));
+        draw();
     }
 
-    @Override
-    public Inventory getInventory() {
-        Inventory inventory = Bukkit.createInventory(this, getSize(), getTitle());
-        chunks.get(this.page - 1).forEach(item -> inventory.setItem(inventory.firstEmpty(), item));
+    private void draw() {
+        reset();
 
-        if (chunks.get(this.page - 1).size() >= 54) {
-            inventory.setItem(48, CosmicVaultAPI.get()._prevPage());
-            inventory.setItem(50, CosmicVaultAPI.get()._nextPage());
+        pages = (int) Math.max(1, Math.ceil(this.icons.size() / (double) 45));
+        setPrevPage(5, 3, CosmicVaultAPI.get()._prevPage());
+        setNextPage(5, 5, CosmicVaultAPI.get()._prevPage());
+
+        int slot = 0;
+        List<ItemStack> data = this.icons.stream().skip((page - 1) * 45L).limit(45).collect(Collectors.toList());
+        for (ItemStack item : data) {
+            setButton(slot++, item, e -> {
+                int vault = CosmicVaults.getInstance().getVaultEdit().get(e.player.getUniqueId());
+                String name = CosmicVaults.getInstance().getData().getString("players." + e.player.getUniqueId().toString() + "." + vault + ".name");
+                CosmicVaults.getInstance().getData().set("players." + e.player.getUniqueId().toString() + "." + vault + ".icon", Objects.requireNonNull(XMaterial.matchXMaterial(item).parseMaterial()).name());
+                CosmicVaults.getInstance().getData().set("players." + e.player.getUniqueId().toString() + "." + vault + ".name", name);
+                CosmicVaults.getInstance().getData().save();
+                CosmicVaults.getInstance().getVaultEdit().remove(e.player.getUniqueId());
+                e.gui.close();
+                CosmicVaults.getInstance().getLocale().getMessage("iconchanged").processPlaceholder("vault_number", vault).processPlaceholder("item", StringUtils.capitalize(XMaterial.matchXMaterial(item).parseMaterial().name().toLowerCase().replace("_", " "))).sendPrefixedMessage(e.player);
+            });
         }
-
-        return inventory;
-    }
-
-    @Override
-    public void onClick(InventoryClickEvent e, int slot) {
-        e.setCancelled(true);
-        Player p = (Player) e.getWhoClicked();
-
-        ItemStack is = e.getCurrentItem();
-        int vault = CosmicVaults.getInstance().getVaultedit().get(p.getUniqueId());
-        String name = CosmicVaults.getInstance().getDataFile().getString("players." + p.getUniqueId().toString() + "." + vault + ".name");
-
-        CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".icon", XMaterial.matchXMaterial(is).parseMaterial().name());
-        CosmicVaults.getInstance().getDataFile().set("players." + p.getUniqueId().toString() + "." + vault + ".name", name);
-
-        CosmicVaults.getInstance().getDataFile().save();
-        CosmicVaults.getInstance().getVaultedit().remove(p.getUniqueId());
-        p.openInventory(new VaultSelectionGUI(p).getInventory());
-
-        CosmicVaults.getInstance().getLocale().getMessage("iconchanged").processPlaceholder("vault_number", vault).processPlaceholder("item", StringUtils.capitalize(XMaterial.matchXMaterial(is).parseMaterial().name().toLowerCase().replace("_", " "))).sendPrefixedMessage(p);
-    }
-
-    @Override
-    public void onClose(InventoryCloseEvent e) {
-        Player p = (Player) e.getPlayer();
-        Bukkit.getServer().getScheduler().runTaskLater(CosmicVaults.getInstance(), () -> p.openInventory(new VaultSelectionGUI(p).getInventory()), 1L);
     }
 }
