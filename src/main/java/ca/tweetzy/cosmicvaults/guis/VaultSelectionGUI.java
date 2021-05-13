@@ -2,6 +2,7 @@ package ca.tweetzy.cosmicvaults.guis;
 
 import ca.tweetzy.core.compatibility.XMaterial;
 import ca.tweetzy.core.gui.Gui;
+import ca.tweetzy.core.utils.TextUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.api.Settings;
@@ -21,7 +22,7 @@ public class VaultSelectionGUI extends Gui {
 
     public VaultSelectionGUI(Player player) {
         this.player = player;
-        setTitle(Settings.GUI_VAULT_SELECTION_TITLE.getString());
+        setTitle(TextUtils.formatText(Settings.GUI_VAULT_SELECTION_TITLE.getString()));
         setRows(CosmicVaultAPI.get().getMaxSelectionMenu(this.player) / 9);
         setAcceptsItems(false);
         draw();

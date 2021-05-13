@@ -88,7 +88,7 @@ public class CosmicVaults extends TweetyPlugin {
         this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new AdminCommand());
 
         // start metrics
-        this.metrics = new Metrics(this, (int) PluginID.COSMIC_VAULTS.getbStatsID());
+        this.metrics = new Metrics(this, 6789);
     }
 
     @Override
