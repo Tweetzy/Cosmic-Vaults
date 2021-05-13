@@ -31,7 +31,9 @@ public class AdminCommand extends AbstractCommand {
         if (args.length != 2) return ReturnType.SYNTAX_ERROR;
         Player p = (Player) sender;
 
-        if (Bukkit.getPlayerExact(args[0]) == null) {
+        Player target = Bukkit.getPlayerExact(args[0]);
+
+        if (target == null) {
             CosmicVaults.getInstance().getLocale().getMessage("player-offline").processPlaceholder("player", args[0]).sendMessage(p);
             return ReturnType.FAILURE;
         }
@@ -41,18 +43,12 @@ public class AdminCommand extends AbstractCommand {
             return ReturnType.FAILURE;
         }
 
-        Player target = Bukkit.getPlayerExact(args[0]);
+        target.closeInventory();
 
-        assert target != null;
-        if (target.getOpenInventory().getTopInventory().getHolder() instanceof Gui) {
-            target.closeInventory();
-        }
-
-        CosmicVaults.getInstance().getOpenedVault().remove(target.getUniqueId());
-        CosmicVaults.getInstance().getOpenedVault().put(target.getUniqueId(), Integer.parseInt(args[1]));
         CosmicVaults.getInstance().getAdminEdit().put(p.getUniqueId(), target.getUniqueId());
+        CosmicVaults.getInstance().getOpenedVault().put(target.getUniqueId(), Integer.parseInt(args[1]));
 
-        CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(target, Integer.parseInt(args[1]), true));
+        CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(target, p, Integer.parseInt(args[1]), true));
 
         return ReturnType.SUCCESS;
     }

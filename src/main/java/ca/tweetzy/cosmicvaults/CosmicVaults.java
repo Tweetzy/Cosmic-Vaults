@@ -5,7 +5,6 @@ import ca.tweetzy.core.TweetyPlugin;
 import ca.tweetzy.core.commands.CommandManager;
 import ca.tweetzy.core.compatibility.ServerVersion;
 import ca.tweetzy.core.configuration.Config;
-import ca.tweetzy.core.core.PluginID;
 import ca.tweetzy.core.gui.GuiManager;
 import ca.tweetzy.core.utils.Metrics;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;

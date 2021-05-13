@@ -44,12 +44,13 @@ public class PlayerVaultCommand extends AbstractCommand {
                     }
 
                     if (CosmicVaultAPI.get().canUseVault(p, Integer.parseInt(args[0]))) {
-                        if (CosmicVaults.getInstance().getOpenedVault().containsKey(p.getUniqueId())) {
+                        if (CosmicVaults.getInstance().getOpenedVault().containsKey(p.getUniqueId()) || CosmicVaults.getInstance().getAdminEdit().containsValue(p.getUniqueId())) {
                             CosmicVaults.getInstance().getLocale().getMessage("vaultopenalready").sendPrefixedMessage(p);
-                        } else {
-                            CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(p, Integer.parseInt(args[0])));
-                            CosmicVaults.getInstance().getOpenedVault().put(p.getUniqueId(), Integer.parseInt(args[0]));
+                            return ReturnType.FAILURE;
                         }
+
+                        CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(p, Integer.parseInt(args[0])));
+                        CosmicVaults.getInstance().getOpenedVault().put(p.getUniqueId(), Integer.parseInt(args[0]));
                     } else {
                         CosmicVaults.getInstance().getLocale().getMessage("pv.no-permission").processPlaceholder("vault_number", Integer.parseInt(args[0])).sendPrefixedMessage(sender);
                     }

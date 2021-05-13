@@ -21,15 +21,17 @@ import org.bukkit.inventory.PlayerInventory;
 public class PlayerVaultGUI extends Gui {
 
     Player player;
+    Player admin;
     int vault;
     boolean adminView;
 
     public PlayerVaultGUI(Player player, int vault) {
-        this(player, vault, false);
+        this(player, null, vault, false);
     }
 
-    public PlayerVaultGUI(Player player, int vault, boolean adminView) {
+    public PlayerVaultGUI(Player player, Player admin, int vault, boolean adminView) {
         this.player = player;
+        this.admin = admin;
         this.vault = vault;
         this.adminView = adminView;
 
@@ -71,11 +73,11 @@ public class PlayerVaultGUI extends Gui {
                 CosmicVaults.getInstance().getOpenedVault().remove(this.player.getUniqueId());
 
             } else {
-                if (!CosmicVaults.getInstance().getAdminEdit().containsKey(this.player.getUniqueId())) {
+                if (!CosmicVaults.getInstance().getAdminEdit().containsKey(this.admin.getUniqueId())) {
                     return;
                 }
 
-                Player target = Bukkit.getPlayer(CosmicVaults.getInstance().getAdminEdit().get(this.player.getUniqueId()));
+                Player target = Bukkit.getPlayer(CosmicVaults.getInstance().getAdminEdit().get(this.admin.getUniqueId()));
 
                 if (!CosmicVaults.getInstance().getData().contains("players." + target.getUniqueId().toString() + "." + vault)) {
                     CosmicVaults.getInstance().getData().set("players." + target.getUniqueId().toString() + "." + vault + ".icon", icon);
@@ -99,7 +101,7 @@ public class PlayerVaultGUI extends Gui {
 
                 CosmicVaults.getInstance().getData().save();
                 CosmicVaults.getInstance().getOpenedVault().remove(target.getUniqueId());
-                CosmicVaults.getInstance().getAdminEdit().remove(this.player.getUniqueId());
+                CosmicVaults.getInstance().getAdminEdit().remove(this.admin.getUniqueId());
             }
         });
 
