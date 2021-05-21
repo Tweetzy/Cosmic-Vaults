@@ -1,17 +1,18 @@
 package ca.tweetzy.cosmicvaults.commands;
 
 import ca.tweetzy.core.commands.AbstractCommand;
-import ca.tweetzy.core.gui.Gui;
 import ca.tweetzy.core.utils.NumberUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.guis.PlayerVaultGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -31,11 +32,17 @@ public class AdminCommand extends AbstractCommand {
         if (args.length != 2) return ReturnType.SYNTAX_ERROR;
         Player p = (Player) sender;
 
-        Player target = Bukkit.getPlayerExact(args[0]);
+        Player targetPlayer = Bukkit.getPlayerExact(args[0]);
+        UUID target = targetPlayer != null ? targetPlayer.getUniqueId() : null;
 
-        if (target == null) {
-            CosmicVaults.getInstance().getLocale().getMessage("player-offline").processPlaceholder("player", args[0]).sendMessage(p);
-            return ReturnType.FAILURE;
+        if (targetPlayer == null) {
+            UUID cached = CosmicVaults.getInstance().getCacheManager().findIdByName(args[0]);
+            if (cached == null) {
+                CosmicVaults.getInstance().getLocale().getMessage("player-offline").processPlaceholder("player", args[0]).sendMessage(p);
+                return ReturnType.FAILURE;
+            }
+
+            target = cached;
         }
 
         if (!NumberUtils.isInt(args[1])) {
@@ -43,10 +50,11 @@ public class AdminCommand extends AbstractCommand {
             return ReturnType.FAILURE;
         }
 
-        target.closeInventory();
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(target);
+        if (offlinePlayer.isOnline()) offlinePlayer.getPlayer().closeInventory();
 
-        CosmicVaults.getInstance().getAdminEdit().put(p.getUniqueId(), target.getUniqueId());
-        CosmicVaults.getInstance().getOpenedVault().put(target.getUniqueId(), Integer.parseInt(args[1]));
+        CosmicVaults.getInstance().getAdminEdit().put(p.getUniqueId(), target);
+        CosmicVaults.getInstance().getOpenedVault().put(target, Integer.parseInt(args[1]));
 
         CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(target, p, Integer.parseInt(args[1]), true));
 
@@ -71,7 +79,7 @@ public class AdminCommand extends AbstractCommand {
     @Override
     protected List<String> onTab(CommandSender sender, String... args) {
         if (args.length == 1) {
-            return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+            return CosmicVaults.getInstance().getCacheManager().getCachedPlayerNames();
         }
 
         if (args.length == 2) {

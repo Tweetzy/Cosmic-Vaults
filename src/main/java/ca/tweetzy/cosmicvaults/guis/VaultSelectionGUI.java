@@ -46,7 +46,7 @@ public class VaultSelectionGUI extends Gui {
                     if (CosmicVaults.getInstance().getOpenedVault().containsKey(this.player.getUniqueId())) {
                         CosmicVaults.getInstance().getLocale().getMessage("vaultopenalready").sendPrefixedMessage(this.player);
                     } else {
-                        CosmicVaults.getInstance().getGuiManager().showGUI(player, new PlayerVaultGUI(this.player, page));
+                        CosmicVaults.getInstance().getGuiManager().showGUI(player, new PlayerVaultGUI(this.player.getUniqueId(), page));
                         CosmicVaults.getInstance().getOpenedVault().put(this.player.getUniqueId(), page);
                     }
                 }

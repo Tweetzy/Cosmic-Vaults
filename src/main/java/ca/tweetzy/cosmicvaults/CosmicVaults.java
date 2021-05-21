@@ -9,8 +9,11 @@ import ca.tweetzy.core.gui.GuiManager;
 import ca.tweetzy.core.utils.Metrics;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.api.Settings;
+import ca.tweetzy.cosmicvaults.cache.CacheManager;
 import ca.tweetzy.cosmicvaults.commands.AdminCommand;
 import ca.tweetzy.cosmicvaults.commands.PlayerVaultCommand;
+import ca.tweetzy.cosmicvaults.commands.SettingsCommand;
+import ca.tweetzy.cosmicvaults.listeners.CacheListener;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
@@ -51,6 +54,9 @@ public class CosmicVaults extends TweetyPlugin {
     @Getter
     private final HashMap<UUID, Integer> vaultEdit = new HashMap<>();
 
+    @Getter
+    private CacheManager cacheManager;
+
     protected Metrics metrics;
 
     @Override
@@ -78,13 +84,17 @@ public class CosmicVaults extends TweetyPlugin {
         // Load the data file
         this.data.load();
 
+        this.cacheManager = new CacheManager();
+        this.cacheManager.loadPlayers();
+        getServer().getPluginManager().registerEvents(new CacheListener(), this);
+
         // Guis
         this.guiManager.init();
         CosmicVaultAPI.get().loadVaultIcons();
 
         // Commands
         this.commandManager = new CommandManager(this);
-        this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new AdminCommand());
+        this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new AdminCommand(), new SettingsCommand());
 
         // start metrics
         this.metrics = new Metrics(this, 6789);
@@ -92,6 +102,7 @@ public class CosmicVaults extends TweetyPlugin {
 
     @Override
     public void onPluginDisable() {
+        CosmicVaultAPI.get().saveCache();
         instance = null;
     }
 

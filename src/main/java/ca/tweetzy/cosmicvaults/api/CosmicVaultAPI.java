@@ -79,6 +79,14 @@ public class CosmicVaultAPI {
         return stack;
     }
 
+    public void saveCache() {
+        CosmicVaults.getInstance().getCacheManager().getCachedPlayers().keySet().forEach(id -> {
+            CosmicVaults.getInstance().getData().set("player cache." + id.toString() + ".uuid", id.toString());
+            CosmicVaults.getInstance().getData().set("player cache." + id.toString() + ".name", CosmicVaults.getInstance().getCacheManager().getCachedPlayers().get(id));
+        });
+        CosmicVaults.getInstance().getData().save();
+    }
+
     /**
      * Used to get the vault item icon
      *

@@ -49,7 +49,7 @@ public class PlayerVaultCommand extends AbstractCommand {
                             return ReturnType.FAILURE;
                         }
 
-                        CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(p, Integer.parseInt(args[0])));
+                        CosmicVaults.getInstance().getGuiManager().showGUI(p, new PlayerVaultGUI(p.getUniqueId(), Integer.parseInt(args[0])));
                         CosmicVaults.getInstance().getOpenedVault().put(p.getUniqueId(), Integer.parseInt(args[0]));
                     } else {
                         CosmicVaults.getInstance().getLocale().getMessage("pv.no-permission").processPlaceholder("vault_number", Integer.parseInt(args[0])).sendPrefixedMessage(sender);
