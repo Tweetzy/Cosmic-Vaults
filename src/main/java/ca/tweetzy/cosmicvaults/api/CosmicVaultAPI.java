@@ -80,9 +80,11 @@ public class CosmicVaultAPI {
     }
 
     public void saveCache() {
-        CosmicVaults.getInstance().getCacheManager().getCachedPlayers().keySet().forEach(id -> {
-            CosmicVaults.getInstance().getData().set("player cache." + id.toString() + ".uuid", id.toString());
-            CosmicVaults.getInstance().getData().set("player cache." + id.toString() + ".name", CosmicVaults.getInstance().getCacheManager().getCachedPlayers().get(id));
+        CosmicVaults.getInstance().getCacheManager().getCachedPlayers().forEach(playerCache -> {
+            CosmicVaults.getInstance().getData().set("player cache." + playerCache.getUuid().toString() + ".uuid", playerCache.getUuid().toString());
+            CosmicVaults.getInstance().getData().set("player cache." + playerCache.getUuid().toString() + ".name", playerCache.getName());
+            CosmicVaults.getInstance().getData().set("player cache." + playerCache.getUuid().toString() + ".max vault size", playerCache.getMaxVaultSize());
+            CosmicVaults.getInstance().getData().set("player cache." + playerCache.getUuid().toString() + ".max selection size", playerCache.getMaxSelectionSize());
         });
         CosmicVaults.getInstance().getData().save();
     }
