@@ -3,7 +3,6 @@ package ca.tweetzy.cosmicvaults.cache;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
 import java.util.List;
