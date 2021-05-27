@@ -37,6 +37,7 @@ public class PlayerVaultGUI extends Gui {
         setTitle(TextUtils.formatText(Settings.GUI_PLAYER_VAULT_TITLE.getString().replace("{vault_number}", String.valueOf(vault))));
         setRows(CosmicVaults.getInstance().getCacheManager().getCachedPlayers().stream().filter(playerCache ->  playerCache.getUuid().equals(this.player)).findFirst().orElse(null).getMaxVaultSize() / 9);
         setAcceptsItems(true);
+        setAllowShiftClick(true);
         setUnlockedRange(0, 89);
 
         setOnClose(close -> {
