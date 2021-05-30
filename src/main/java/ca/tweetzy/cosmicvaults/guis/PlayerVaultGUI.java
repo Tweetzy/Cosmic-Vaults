@@ -1,6 +1,7 @@
 package ca.tweetzy.cosmicvaults.guis;
 
 import ca.tweetzy.core.compatibility.XMaterial;
+import ca.tweetzy.core.compatibility.XSound;
 import ca.tweetzy.core.gui.Gui;
 import ca.tweetzy.core.utils.PlayerUtils;
 import ca.tweetzy.core.utils.TextUtils;
@@ -103,7 +104,11 @@ public class PlayerVaultGUI extends Gui {
                 CosmicVaults.getInstance().getOpenedVault().remove(target);
                 CosmicVaults.getInstance().getAdminEdit().remove(this.admin.getUniqueId());
             }
+
+            close.player.playSound(close.player.getLocation(), XSound.getSound(Settings.VAULT_CLOSE_SOUND.getString()).parseSound(), 1.0F, 1.0F);
         });
+
+        setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.getSound(Settings.VAULT_OPEN_SOUND.getString()).parseSound(), 1.0F, 1.0F));
 
         draw();
     }

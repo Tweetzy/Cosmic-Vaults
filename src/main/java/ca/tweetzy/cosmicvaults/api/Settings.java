@@ -1,5 +1,6 @@
 package ca.tweetzy.cosmicvaults.api;
 
+import ca.tweetzy.core.compatibility.XSound;
 import ca.tweetzy.core.configuration.Config;
 import ca.tweetzy.core.configuration.ConfigSetting;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
@@ -24,6 +25,9 @@ public class Settings {
     public static final ConfigSetting DEFAULT_SELECT_MENU_SIZE = new ConfigSetting(config, "default select menu size", 54, "Max is 54, Min is 9. Has to be a multiple of 9");
     public static final ConfigSetting DISABLE_ICON_SELECTION = new ConfigSetting(config, "disable icon selection", false, "Should icon selection be disabled?");
     public static final ConfigSetting DISABLE_VAULT_SELECTION_ON_CLOSE = new ConfigSetting(config, "disable vault selection on close", true, "Should icon selection be disabled on close?");
+
+    public static final ConfigSetting VAULT_OPEN_SOUND = new ConfigSetting(config, "vault open sound", XSound.ENTITY_BAT_TAKEOFF.name());
+    public static final ConfigSetting VAULT_CLOSE_SOUND = new ConfigSetting(config, "vault close sound", XSound.ENTITY_BAT_TAKEOFF.name());
 
     public static final ConfigSetting BLOCKED_ITEMS = new ConfigSetting(config, "blocked vault icons", Arrays.asList("BEDROCK", "BARRIER"), "A list of item Material names that should be blocked");
 
