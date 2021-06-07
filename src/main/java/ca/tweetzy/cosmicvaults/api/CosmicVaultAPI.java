@@ -4,6 +4,7 @@ import ca.tweetzy.core.compatibility.XMaterial;
 import ca.tweetzy.core.utils.TextUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +35,7 @@ public class CosmicVaultAPI {
 
     public void loadVaultIcons() {
         Settings.GUI_ICON_SELECTION_ITEMS.getStringList().forEach(item -> {
-            ItemStack stack = XMaterial.matchXMaterial(item.toUpperCase()).get().parseItem();
+            ItemStack stack = item.contains("CARROT") ? new ItemStack(Material.CARROT, 1) : XMaterial.matchXMaterial(item.toUpperCase()).orElse(XMaterial.PAPER).parseItem();
             ItemMeta meta = stack.getItemMeta();
             meta.setDisplayName(TextUtils.formatText(Settings.GUI_ICON_SELECTION_ITEM_NAME.getString().replace("{material_name}", StringUtils.capitalize(stack.getType().name().toLowerCase().replace("_", " ")))));
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -97,7 +98,9 @@ public class CosmicVaultAPI {
      * @return the page icon
      */
     public ItemStack vaultItem(Player p, int page) {
-        ItemStack stack = XMaterial.matchXMaterial((CosmicVaults.getInstance().getData().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getData().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString()).get().parseItem();
+        ItemStack stack = XMaterial.matchXMaterial(CosmicVaults.getInstance().getData().contains("players." + p.getUniqueId().toString() + "." + page) ? CosmicVaults.getInstance().getData().getString("players." + p.getUniqueId().toString() + "." + page + ".icon") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM.getString()).orElse(XMaterial.PAPER).parseItem();
+        if (stack.getType() == Material.CARROTS || stack.getType() == Material.CARROT) stack = new ItemStack(Material.CARROT, 1);
+
         ItemMeta meta = stack.getItemMeta();
         meta.setDisplayName(TextUtils.formatText((CosmicVaults.getInstance().getData().contains("players." + p.getUniqueId().toString() + "." + page)) ? CosmicVaults.getInstance().getData().getString("players." + p.getUniqueId().toString() + "." + page + ".name") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_NAME.getString().replace("{vaultnumber}", String.valueOf(page))));
         List<String> lore = new ArrayList<>();

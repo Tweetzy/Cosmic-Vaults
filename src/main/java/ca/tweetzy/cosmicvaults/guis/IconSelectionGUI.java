@@ -8,6 +8,7 @@ import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.api.Settings;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -38,7 +39,6 @@ public class IconSelectionGUI extends Gui {
 
         setOnClose(close -> {
             close.manager.showGUI(close.player, new VaultSelectionGUI(close.player));
-            close.player.playSound(close.player.getLocation(), XSound.getSound(Settings.VAULT_CLOSE_SOUND.getString()).parseSound(), 1.0F, 1.0F);
         });
 
         setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.getSound(Settings.VAULT_OPEN_SOUND.getString()).parseSound(), 1.0F, 1.0F));
@@ -59,7 +59,7 @@ public class IconSelectionGUI extends Gui {
             setButton(slot++, item, e -> {
                 int vault = CosmicVaults.getInstance().getVaultEdit().get(e.player.getUniqueId());
                 String name = CosmicVaults.getInstance().getData().getString("players." + e.player.getUniqueId().toString() + "." + vault + ".name");
-                CosmicVaults.getInstance().getData().set("players." + e.player.getUniqueId().toString() + "." + vault + ".icon", Objects.requireNonNull(XMaterial.matchXMaterial(item).parseMaterial()).name());
+                CosmicVaults.getInstance().getData().set("players." + e.player.getUniqueId().toString() + "." + vault + ".icon", item.getType() == Material.CARROT ? "CARROT" : Objects.requireNonNull(XMaterial.matchXMaterial(item).parseMaterial()).name());
                 CosmicVaults.getInstance().getData().set("players." + e.player.getUniqueId().toString() + "." + vault + ".name", name);
                 CosmicVaults.getInstance().getData().save();
                 CosmicVaults.getInstance().getVaultEdit().remove(e.player.getUniqueId());
