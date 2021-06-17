@@ -8,6 +8,7 @@ import ca.tweetzy.core.configuration.Config;
 import ca.tweetzy.core.gui.GuiManager;
 import ca.tweetzy.core.utils.Metrics;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
+import ca.tweetzy.cosmicvaults.api.LocaleSettings;
 import ca.tweetzy.cosmicvaults.api.Settings;
 import ca.tweetzy.cosmicvaults.cache.CacheManager;
 import ca.tweetzy.cosmicvaults.commands.AdminCommand;
@@ -79,7 +80,8 @@ public class CosmicVaults extends TweetyPlugin {
         Settings.setup();
 
         // Setup the locale
-        setLocale(Settings.LANG.getString(), false);
+        setLocale(Settings.LANG.getString());
+        LocaleSettings.setup();
 
         // Load the data file
         this.data.load();

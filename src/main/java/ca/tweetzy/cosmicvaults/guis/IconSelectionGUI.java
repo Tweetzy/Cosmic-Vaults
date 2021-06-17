@@ -41,7 +41,7 @@ public class IconSelectionGUI extends Gui {
             close.manager.showGUI(close.player, new VaultSelectionGUI(close.player));
         });
 
-        setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.getSound(Settings.VAULT_OPEN_SOUND.getString()).parseSound(), 1.0F, 1.0F));
+        setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.matchXSound(Settings.VAULT_OPEN_SOUND.getString()).get().parseSound(), 1.0F, 1.0F));
 
         draw();
     }

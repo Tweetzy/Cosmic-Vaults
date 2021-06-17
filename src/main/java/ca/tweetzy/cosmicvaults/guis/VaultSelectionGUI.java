@@ -28,8 +28,8 @@ public class VaultSelectionGUI extends Gui {
         setAcceptsItems(false);
         draw();
 
-        setOnClose(close -> close.player.playSound(close.player.getLocation(), XSound.getSound(Settings.VAULT_CLOSE_SOUND.getString()).parseSound(), 1.0F, 1.0F));
-        setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.getSound(Settings.VAULT_OPEN_SOUND.getString()).parseSound(), 1.0F, 1.0F));
+        setOnClose(close -> close.player.playSound(close.player.getLocation(), XSound.matchXSound(Settings.VAULT_CLOSE_SOUND.getString()).orElse(XSound.ENTITY_BAT_TAKEOFF).parseSound(), 1.0F, 1.0F));
+        setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.matchXSound(Settings.VAULT_OPEN_SOUND.getString()).orElse(XSound.ENTITY_BAT_TAKEOFF).parseSound(), 1.0F, 1.0F));
     }
 
     private void draw() {

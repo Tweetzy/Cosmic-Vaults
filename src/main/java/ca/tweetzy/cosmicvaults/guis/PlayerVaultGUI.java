@@ -105,10 +105,10 @@ public class PlayerVaultGUI extends Gui {
                 CosmicVaults.getInstance().getAdminEdit().remove(this.admin.getUniqueId());
             }
 
-            close.player.playSound(close.player.getLocation(), XSound.getSound(Settings.VAULT_CLOSE_SOUND.getString()).parseSound(), 1.0F, 1.0F);
+            close.player.playSound(close.player.getLocation(), XSound.matchXSound(Settings.VAULT_CLOSE_SOUND.getString()).get().parseSound(), 1.0F, 1.0F);
         });
 
-        setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.getSound(Settings.VAULT_OPEN_SOUND.getString()).parseSound(), 1.0F, 1.0F));
+        setOnOpen(open -> open.player.playSound(open.player.getLocation(), XSound.matchXSound(Settings.VAULT_OPEN_SOUND.getString()).get().parseSound(), 1.0F, 1.0F));
 
         draw();
     }
