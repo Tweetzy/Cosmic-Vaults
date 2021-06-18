@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
  * Time Created: 4:25 PM
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise.
  */
-public class AdminCommand extends AbstractCommand {
+public class CommandAdmin extends AbstractCommand {
 
-    public AdminCommand() {
+    public CommandAdmin() {
         super(CommandType.PLAYER_ONLY, "admin");
     }
 
@@ -38,7 +38,7 @@ public class AdminCommand extends AbstractCommand {
         if (targetPlayer == null) {
             UUID cached = CosmicVaults.getInstance().getCacheManager().findIdByName(args[0]);
             if (cached == null) {
-                CosmicVaults.getInstance().getLocale().getMessage("player-offline").processPlaceholder("player", args[0]).sendMessage(p);
+                CosmicVaults.getInstance().getLocale().getMessage("player-offline").processPlaceholder("player", args[0]).sendPrefixedMessage(p);
                 return ReturnType.FAILURE;
             }
 
@@ -46,7 +46,7 @@ public class AdminCommand extends AbstractCommand {
         }
 
         if (!NumberUtils.isInt(args[1])) {
-            CosmicVaults.getInstance().getLocale().getMessage("notanumber").sendMessage(p);
+            CosmicVaults.getInstance().getLocale().getMessage("notanumber").sendPrefixedMessage(p);
             return ReturnType.FAILURE;
         }
 

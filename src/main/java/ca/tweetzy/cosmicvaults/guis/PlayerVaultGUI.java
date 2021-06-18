@@ -7,6 +7,7 @@ import ca.tweetzy.core.utils.PlayerUtils;
 import ca.tweetzy.core.utils.TextUtils;
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.api.Settings;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
@@ -122,9 +123,11 @@ public class PlayerVaultGUI extends Gui {
             return;
         }
 
-        for (String keys : CosmicVaults.getInstance().getData().getConfigurationSection("players." + this.player.toString() + "." + this.vault + ".contents").getKeys(false)) {
-            int slot = Integer.parseInt(keys);
-            setItem(slot, CosmicVaults.getInstance().getData().getItemStack("players." + this.player.toString() + "." + this.vault + ".contents." + keys));
-        }
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(CosmicVaults.getInstance(), () -> {
+            for (String keys : CosmicVaults.getInstance().getData().getConfigurationSection("players." + this.player.toString() + "." + this.vault + ".contents").getKeys(false)) {
+                int slot = Integer.parseInt(keys);
+                setItem(slot, CosmicVaults.getInstance().getData().getItemStack("players." + this.player.toString() + "." + this.vault + ".contents." + keys));
+            }
+        });
     }
 }

@@ -17,9 +17,9 @@ import java.util.List;
  * Time Created: 2:55 PM
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise.
  */
-public class PlayerVaultCommand extends AbstractCommand {
+public class CommandPlayerVault extends AbstractCommand {
 
-    public PlayerVaultCommand() {
+    public CommandPlayerVault() {
         super(CommandType.CONSOLE_OK, "playervaults");
     }
 
@@ -54,12 +54,11 @@ public class PlayerVaultCommand extends AbstractCommand {
                     } else {
                         CosmicVaults.getInstance().getLocale().getMessage("pv.no-permission").processPlaceholder("vault_number", Integer.parseInt(args[0])).sendPrefixedMessage(sender);
                     }
+                } else {
+                    CosmicVaults.getInstance().getLocale().getMessage("notanumber").sendPrefixedMessage(p);
                 }
                 return ReturnType.SUCCESS;
             }
-
-        } else {
-            // console
         }
 
         return ReturnType.SUCCESS;

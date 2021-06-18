@@ -14,9 +14,9 @@ import java.util.List;
  * Time Created: 4:41 p.m.
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise
  */
-public class SettingsCommand extends AbstractCommand  {
+public class CommandSettings extends AbstractCommand  {
 
-    public SettingsCommand() {
+    public CommandSettings() {
         super(CommandType.PLAYER_ONLY, "settings");
     }
 

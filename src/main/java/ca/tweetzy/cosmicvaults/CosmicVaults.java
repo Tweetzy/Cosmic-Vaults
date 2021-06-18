@@ -11,9 +11,10 @@ import ca.tweetzy.cosmicvaults.api.CosmicVaultAPI;
 import ca.tweetzy.cosmicvaults.api.LocaleSettings;
 import ca.tweetzy.cosmicvaults.api.Settings;
 import ca.tweetzy.cosmicvaults.cache.CacheManager;
-import ca.tweetzy.cosmicvaults.commands.AdminCommand;
-import ca.tweetzy.cosmicvaults.commands.PlayerVaultCommand;
-import ca.tweetzy.cosmicvaults.commands.SettingsCommand;
+import ca.tweetzy.cosmicvaults.commands.CommandAdmin;
+import ca.tweetzy.cosmicvaults.commands.CommandPlayerVault;
+import ca.tweetzy.cosmicvaults.commands.CommandReload;
+import ca.tweetzy.cosmicvaults.commands.CommandSettings;
 import ca.tweetzy.cosmicvaults.listeners.CacheListener;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
@@ -96,7 +97,7 @@ public class CosmicVaults extends TweetyPlugin {
 
         // Commands
         this.commandManager = new CommandManager(this);
-        this.commandManager.addCommand(new PlayerVaultCommand()).addSubCommands(new AdminCommand(), new SettingsCommand());
+        this.commandManager.addCommand(new CommandPlayerVault()).addSubCommands(new CommandAdmin(), new CommandSettings(), new CommandReload());
 
         // start metrics
         this.metrics = new Metrics(this, 6789);
@@ -110,7 +111,9 @@ public class CosmicVaults extends TweetyPlugin {
 
     @Override
     public void onConfigReload() {
-
+        Settings.setup();
+        setLocale(Settings.LANG.getString());
+        LocaleSettings.setup();
     }
 
     @Override
