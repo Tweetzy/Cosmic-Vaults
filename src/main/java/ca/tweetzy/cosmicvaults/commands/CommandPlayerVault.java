@@ -17,6 +17,9 @@ import java.util.List;
  * Time Created: 2:55 PM
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise.
  */
+
+
+// TODO -> add SQL support for actual vault storage.
 public class CommandPlayerVault extends AbstractCommand {
 
     public CommandPlayerVault() {

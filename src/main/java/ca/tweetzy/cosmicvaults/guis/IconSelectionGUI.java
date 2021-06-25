@@ -29,6 +29,7 @@ public class IconSelectionGUI extends Gui {
         this.icons = CosmicVaults.getInstance().getVaultIcons();
         setTitle(TextUtils.formatText(Settings.GUI_ICON_SELECTION_TITLE.getString()));
         setAcceptsItems(false);
+        setAllowShiftClick(false);
 
         if (this.icons.size() <= 9) setRows(1);
         if (this.icons.size() >= 10 && this.icons.size() <= 18) setRows(2);
@@ -58,7 +59,8 @@ public class IconSelectionGUI extends Gui {
         for (ItemStack item : data) {
             setButton(slot++, item, e -> {
                 int vault = CosmicVaults.getInstance().getVaultEdit().get(e.player.getUniqueId());
-                String name = CosmicVaults.getInstance().getData().getString("players." + e.player.getUniqueId().toString() + "." + vault + ".name");
+
+                String name = CosmicVaults.getInstance().getData().contains("players." + e.player.getUniqueId().toString() + "." + vault + ".name") ? CosmicVaults.getInstance().getData().getString("players." + e.player.getUniqueId().toString() + "." + vault + ".name") : Settings.GUI_VAULT_SELECTION_DEFAULT_ITEM_NAME.getString().replace("{vaultnumber}", String.valueOf(vault));
                 CosmicVaults.getInstance().getData().set("players." + e.player.getUniqueId().toString() + "." + vault + ".icon", item.getType() == Material.CARROT ? "CARROT" : Objects.requireNonNull(XMaterial.matchXMaterial(item).parseMaterial()).name());
                 CosmicVaults.getInstance().getData().set("players." + e.player.getUniqueId().toString() + "." + vault + ".name", name);
                 CosmicVaults.getInstance().getData().save();

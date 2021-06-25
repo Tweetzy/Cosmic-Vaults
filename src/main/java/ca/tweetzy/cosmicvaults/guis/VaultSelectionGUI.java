@@ -26,6 +26,7 @@ public class VaultSelectionGUI extends Gui {
         setTitle(TextUtils.formatText(Settings.GUI_VAULT_SELECTION_TITLE.getString()));
         setRows(CosmicVaultAPI.get().getMaxSelectionMenu(this.player) / 9);
         setAcceptsItems(false);
+        setAllowShiftClick(false);
         draw();
 
         setOnClose(close -> close.player.playSound(close.player.getLocation(), XSound.matchXSound(Settings.VAULT_CLOSE_SOUND.getString()).orElse(XSound.ENTITY_BAT_TAKEOFF).parseSound(), 1.0F, 1.0F));
