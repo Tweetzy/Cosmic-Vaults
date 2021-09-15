@@ -1,30 +1,7 @@
-name: CosmicVaults
-version: maven-version-number
-main: ca.tweetzy.cosmicvaults.CosmicVaults
+name: ${project.name}
+version: ${project.version}
+main: ${main.class}
+author: ${author}
 api-version: 1.13
-authors: [Kiran Hart]
-description: Simply a replica of the vault system from CosmicPvP
-website: https://www.tweetzy.com
-
+softdepend: [AuthMe, BanManager, BungeeChatAPI, CMI, DiscordSRV, Factions, Feudal, ItemsAdder, Essentials, LegacyFactions, Lands, LuckPerms, Multiverse-Core, MVdWPlaceholderAPI, MythicMobs, mcMMO, NashornPlus, Nicky, PlaceholderAPI, ProtocolLib, SimpleClans, Towny, TownyChat, Vault, WorldEdit]
 commands:
-  playervaults:
-    description: Main command for the comsic vault plugin
-    default: true
-    aliases: [pv, vaults, myvault]
-    usage: /pv
-permissions:
-  cosmicvaults.*:
-    description: Allows access to all sub permissions
-    children:
-      cosmicvaults.cmd: true
-      cosmicvaults.cmd.reload: true
-      cosmicvaults.cmd.admin: true
-  cosmicvaults.cmd:
-    description: Allows the user to open the pv selection or direct pv
-    default: op
-  cosmicvaults.cmd.reload:
-    description: Allows the user to reload the plugin
-    default: op
-  cosmicvaults.cmd.admin:
-    description: Allows staff to force access to a player vault
-    default: op
