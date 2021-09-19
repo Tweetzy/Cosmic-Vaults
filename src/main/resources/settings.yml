@@ -1,4 +1,88 @@
 # -------------------------------------------------------------------------------------------------
+# Default Options
+# -------------------------------------------------------------------------------------------------
+
+# How big should the player's vault selection menu be by default?
+# This only takes affect if they aren't given the appropriate permission nodes
+Default Vault Selection Menu Size: 6
+
+# How big should the user's vault be by default
+# This only takes affect if they aren't given the appropriate permission nodes
+Default Vault Size: 6
+
+# How many vaults should the user be allowed to access by default?
+# This only takes affect if they aren't given the appropriate permission nodes
+Default Max Allowed Vaults: 3
+
+# Save to file after every vault close, this could possibly get laggy... or result in some fun console errors
+Save To File After Every Vault Close: false
+
+# Only save vaults with changes to the file. If false, CosmicVaults will save every single vault during the auto save
+# and plugin disable/reload regardless if that particular vault was edited / changed.
+Only Save Vaults With Changes: true
+
+# Settings regarding auto save, it's recommend to use this option over the `Save To File After Every Vault Close` one
+Auto Save:
+  Enabled: true
+  Save Delay: 30 minutes
+
+# -------------------------------------------------------------------------------------------------
+# GUI Formatting Options
+# -------------------------------------------------------------------------------------------------
+Guis:
+  Vault Selection:
+    Title: "&dCosmic Vaults &f-&7 Select Vault"
+    Items:
+      Locked:
+        Material: RED_STAINED_GLASS_PANE
+        Name: "&c&lVault Locked"
+        Lore:
+          - "&7You do not have permission to access this vault"
+      Opened:
+        # This will be ignored whenever the player changes it
+        Material: EMERALD
+        Name: "{vault_title}"
+        Lore:
+          - "{vault_description}"
+          - "&7Created&f: &d{vault_creation_date}"
+          - "&7Items&f: &d{vault_item_count}"
+          - ""
+          - "&7Left-Click to open vault"
+          - "&7Right-Click to edit vault"
+      Unopened:
+        Material: LIME_STAINED_GLASS_PANE
+        Name: "&a&lUnopened Vault"
+        Lore:
+          - "&7Click to open this vault"
+
+# -------------------------------------------------------------------------------------------------
+# The format used in the {timestamp} placeholder (google "Java timestamp format" for options).
+# -------------------------------------------------------------------------------------------------
+Timestamp_Format: "MMMM DD, yyyy HH:mm:ss aa"
+
+# -------------------------------------------------------------------------------------------------
+# * THE FIRST ALIAS IS THE MAIN LABEL, PLEASE DO NOT REMOVE IT. *
+# -------------------------------------------------------------------------------------------------
+Command_Aliases: [cosmicvaults, pv, playervaults]
+
+# -------------------------------------------------------------------------------------------------
+# What language should we use for messages? If it exists, the language file will be copied
+# to your messages/ folder where you can edit it.
+# -------------------------------------------------------------------------------------------------
+Locale: en
+
+# -------------------------------------------------------------------------------------------------
+# The prefix used in front of most chat or console messages
+# -------------------------------------------------------------------------------------------------
+Prefix: "&8[&dCosmicVaults&8]"
+
+# -------------------------------------------------------------------------------------------------
+# We log a console message if an operation takes over the time below (milliseconds).
+# Set to -1 to disable.
+# -------------------------------------------------------------------------------------------------
+Log_Lag_Over_Milis: 100
+
+# -------------------------------------------------------------------------------------------------
 # Do not change this value, otherwise it will corrupt your plugin installation!
 # -------------------------------------------------------------------------------------------------
 Version: 1
