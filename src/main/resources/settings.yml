@@ -21,6 +21,10 @@ Save To File After Every Vault Close: false
 # and plugin disable/reload regardless if that particular vault was edited / changed.
 Only Save Vaults With Changes: true
 
+# Blocked materials
+Blocked Materials:
+  - ENDER_CHEST
+
 # Materials that can be used as a vault icon
 Vault Icons:
   - LEATHER_HELMET

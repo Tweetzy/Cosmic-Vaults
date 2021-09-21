@@ -39,7 +39,7 @@ public final class VaultPlayerManager {
 		this.players.remove(uuid);
 	}
 
-	public StrictList<UUID> getAllPlayerIdsWithVaults() {
+	public StrictList<UUID> getAllPlayers() {
 		StrictList<UUID> known = new StrictList<>(this.players.keySet());
 		for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
 			if (!known.contains(offlinePlayer.getUniqueId()))

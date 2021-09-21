@@ -150,7 +150,7 @@ public final class CosmicVaultsAPI {
 		return vaultManager.getVaultsByPlayer(owner);
 	}
 
-	public List<UUID> getAllPlayerIdsWithVaults() {
-		return Collections.unmodifiableList(vaultPlayerManager.getAllPlayerIdsWithVaults().getSource());
+	public List<UUID> getAllPlayers() {
+		return Collections.unmodifiableList(vaultPlayerManager.getAllPlayers().getSource());
 	}
 }

@@ -1,11 +1,14 @@
 package ca.tweetzy.cosmicvaults.menu;
 
 import ca.tweetzy.cosmicvaults.api.CosmicVaultsAPI;
+import ca.tweetzy.cosmicvaults.api.events.VaultIconChangeEvent;
 import ca.tweetzy.cosmicvaults.impl.Vault;
+import ca.tweetzy.cosmicvaults.model.Permissions;
 import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
 import ca.tweetzy.tweety.ItemUtil;
+import ca.tweetzy.tweety.PlayerUtil;
 import ca.tweetzy.tweety.menu.Menu;
 import ca.tweetzy.tweety.menu.MenuPagged;
 import ca.tweetzy.tweety.menu.model.ItemCreator;
@@ -48,9 +51,18 @@ public final class MenuIconSelect extends MenuPagged<CompMaterial> {
 
 	@Override
 	protected void onPageClick(Player player, CompMaterial item, ClickType click) {
-		this.vault.setIcon(item.getMaterial());
-		CosmicVaultsAPI.addEditedVault(this.vault.getUUID());
-		Common.tell(player, Localization.VaultIconChange.CHANGED.replace("{vault_icon}", ItemUtil.bountifyCapitalized(item)));
+		if (!PlayerUtil.hasPerm(getViewer(), Permissions.Vault.EDIT_ICON)) {
+			Common.tell(getViewer(), Localization.VaultIconChange.NO_PERMISSION);
+			new MenuVaultEdit(this.vault).displayTo(player);
+			return;
+		}
+
+		if (Common.callEvent(new VaultIconChangeEvent(this.vault))) {
+			this.vault.setIcon(item.getMaterial());
+			CosmicVaultsAPI.addEditedVault(this.vault.getUUID());
+			Common.tell(player, Localization.VaultIconChange.CHANGED.replace("{vault_icon}", ItemUtil.bountifyCapitalized(item)));
+		}
+
 		new MenuVaultEdit(this.vault).displayTo(player);
 	}
 

@@ -23,6 +23,7 @@ public final class Settings extends SimpleSettings {
 	public static Boolean SAVE_TO_FILE_AFTER_EVERY_VAULT_CLOSE;
 	public static Boolean ONLY_SAVE_VAULTS_WITH_CHANGES;
 	public static StrictList<CompMaterial> VAULT_ICONS;
+	public static StrictList<CompMaterial> BLOCKED_MATERIALS;
 
 	private static void init() {
 		pathPrefix(null);
@@ -35,6 +36,7 @@ public final class Settings extends SimpleSettings {
 		ONLY_SAVE_VAULTS_WITH_CHANGES = getBoolean("Only Save Vaults With Changes");
 
 		VAULT_ICONS = getMaterialList("Vault Icons");
+		BLOCKED_MATERIALS = getMaterialList("Blocked Materials");
 	}
 
 

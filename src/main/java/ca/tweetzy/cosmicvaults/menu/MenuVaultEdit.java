@@ -1,11 +1,15 @@
 package ca.tweetzy.cosmicvaults.menu;
 
 import ca.tweetzy.cosmicvaults.api.CosmicVaultsAPI;
+import ca.tweetzy.cosmicvaults.api.events.VaultDescriptionChangeEvent;
+import ca.tweetzy.cosmicvaults.api.events.VaultNameChangeEvent;
 import ca.tweetzy.cosmicvaults.impl.Vault;
+import ca.tweetzy.cosmicvaults.model.Permissions;
 import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
 import ca.tweetzy.tweety.ItemUtil;
+import ca.tweetzy.tweety.PlayerUtil;
 import ca.tweetzy.tweety.conversation.SimplePrompt;
 import ca.tweetzy.tweety.menu.Menu;
 import ca.tweetzy.tweety.menu.button.Button;
@@ -53,6 +57,13 @@ public final class MenuVaultEdit extends Menu {
 			@Override
 			protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String content) {
 				if (content.length() >= 3) {
+					if (!PlayerUtil.hasPerm(getViewer(), Permissions.Vault.EDIT_NAME)) {
+						Common.tell(getViewer(), Localization.VaultNameChange.NO_PERMISSION);
+						return END_OF_CONVERSATION;
+					}
+
+					if (!Common.callEvent(new VaultNameChangeEvent(vault))) return END_OF_CONVERSATION;
+
 					vault.setName(content);
 					CosmicVaultsAPI.addEditedVault(vault.getUUID());
 					Common.tell(getViewer(), Localization.VaultNameChange.CHANGED.replace("{vault_name}", content));
@@ -72,6 +83,13 @@ public final class MenuVaultEdit extends Menu {
 			@Override
 			protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String content) {
 				if (content.length() >= 3) {
+					if (!PlayerUtil.hasPerm(getViewer(), Permissions.Vault.EDIT_DESCRIPTION)) {
+						Common.tell(getViewer(), Localization.VaultDescriptionChange.NO_PERMISSION);
+						return END_OF_CONVERSATION;
+					}
+
+					if (!Common.callEvent(new VaultDescriptionChangeEvent(vault))) return END_OF_CONVERSATION;
+
 					vault.setDescription(content);
 					CosmicVaultsAPI.addEditedVault(vault.getUUID());
 					Common.tell(getViewer(), Localization.VaultDescriptionChange.CHANGED.replace("{vault_description}", content));
@@ -84,6 +102,10 @@ public final class MenuVaultEdit extends Menu {
 		iconButton = new ButtonMenu(new MenuIconSelect(this.vault), ItemCreator.of(CompMaterial.fromMaterial(this.vault.getIcon()), Settings.VaultEditMenu.Items.ICON_NAME, Settings.VaultEditMenu.Items.ICON_LORE));
 
 		resetButton = Button.makeSimple(ItemCreator.of(Settings.VaultEditMenu.Items.RESET_MATERIAL, Settings.VaultEditMenu.Items.RESET_NAME, Settings.VaultEditMenu.Items.RESET_LORE), player -> {
+			if (!PlayerUtil.hasPerm(getViewer(), Permissions.Vault.EDIT_RESET)) {
+				return;
+			}
+
 			CosmicVaultsAPI.resetVaultContents(player.getUniqueId(), this.vault.getNumber());
 			Common.tell(player, Localization.VaultReset.PLAYER.replace("{vault_number}", String.valueOf(this.vault.getNumber())));
 			this.newInstance().displayTo(player);
@@ -92,6 +114,10 @@ public final class MenuVaultEdit extends Menu {
 		deleteButton = new Button() {
 			@Override
 			public void onClickedInMenu(Player player, Menu menu, ClickType click) {
+				if (!PlayerUtil.hasPerm(getViewer(), Permissions.Vault.EDIT_DELETE)) {
+					return;
+				}
+
 				if (click == ClickType.MIDDLE) {
 					CosmicVaultsAPI.deleteVault(player.getUniqueId(), vault.getNumber());
 					Common.tell(player, Localization.VaultDelete.PLAYER.replace("{vault_number}", String.valueOf(vault.getNumber())));

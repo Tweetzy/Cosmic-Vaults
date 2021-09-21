@@ -64,7 +64,7 @@ public final class MenuVaultSelection extends Menu {
 				return;
 			}
 
-			new MenuVaultView(vault).displayTo(player);
+			new MenuVaultView(vault, true).displayTo(player);
 		}
 
 		if (click == ClickType.RIGHT) {

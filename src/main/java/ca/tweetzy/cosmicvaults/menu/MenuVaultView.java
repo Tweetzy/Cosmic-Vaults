@@ -23,9 +23,15 @@ import org.bukkit.inventory.ItemStack;
 public final class MenuVaultView extends Menu {
 
 	private final Vault vault;
+	private final boolean returnToSelection;
 
 	public MenuVaultView(@NonNull final Vault vault) {
+		this(vault, false);
+	}
+
+	public MenuVaultView(@NonNull final Vault vault, final boolean returnToSelection) {
 		this.vault = vault;
+		this.returnToSelection = returnToSelection;
 		this.vault.setOpen(true);
 		setTitle(this.vault.getName());
 		setSize(9 * this.vault.getRows());
@@ -53,6 +59,8 @@ public final class MenuVaultView extends Menu {
 
 		this.vault.setOpen(false);
 		Common.callEvent(new VaultCloseEvent(this.vault));
+		if (this.returnToSelection)
+			new MenuVaultSelection(CosmicVaultsAPI.getVaultPlayer(player)).displayTo(player);
 	}
 
 	@Override
@@ -62,6 +70,7 @@ public final class MenuVaultView extends Menu {
 
 	@Override
 	protected boolean isActionAllowed(MenuClickLocation location, int slot, ItemStack clicked, ItemStack cursor) {
+		if (location == MenuClickLocation.PLAYER_INVENTORY && clicked != null && Settings.BLOCKED_MATERIALS.contains(CompMaterial.fromItem(clicked))) return false;
 		return slot >= 0 && slot <= this.vault.getRows() * 9;
 	}
 

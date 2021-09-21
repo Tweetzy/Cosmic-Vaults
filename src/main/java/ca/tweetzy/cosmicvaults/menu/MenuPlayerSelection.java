@@ -26,7 +26,7 @@ import java.util.UUID;
 public final class MenuPlayerSelection extends MenuPagged<UUID> {
 
 	public MenuPlayerSelection() {
-		super(null, 6, 9 * 4, CosmicVaultsAPI.getAllPlayerIdsWithVaults());
+		super(null, 6, 9 * 4, CosmicVaultsAPI.getAllPlayers());
 		setTitle(Settings.PlayerSelectionMenu.TITLE);
 	}
 
