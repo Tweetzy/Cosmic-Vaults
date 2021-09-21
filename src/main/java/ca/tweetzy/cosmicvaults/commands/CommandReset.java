@@ -9,22 +9,20 @@ import ca.tweetzy.tweety.PlayerUtil;
 import ca.tweetzy.tweety.settings.SimpleLocalization;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 /**
  * The current file has been created by Kiran Hart
- * Date Created: September 19 2021
- * Time Created: 3:15 a.m.
+ * Date Created: September 20 2021
+ * Time Created: 1:37 p.m.
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise
  */
-public final class CommandDelete extends AbstractVaultSubCommand {
+public final class CommandReset extends AbstractVaultSubCommand{
 
-	public CommandDelete() {
-		super("delete|del|remove");
+	public CommandReset() {
+		super("reset");
 		setMinArguments(1);
-		setDescription("Used to delete your vault");
+		setDescription("Reset your vault settings");
 		setUsage("<#>");
-		setPermission(Permissions.Command.DELETE);
+		setPermission(Permissions.Command.RESET);
 	}
 
 	@Override
@@ -49,12 +47,12 @@ public final class CommandDelete extends AbstractVaultSubCommand {
 				return;
 			}
 
-			CosmicVaultsAPI.deleteVault(player.getUniqueId(), vaultNumber);
-			Common.tell(player, Localization.VaultDelete.PLAYER.replace("{vault_number}", String.valueOf(vaultNumber)));
+			CosmicVaultsAPI.resetVaultContents(player.getUniqueId(), vaultNumber);
+			Common.tell(player, Localization.VaultReset.PLAYER.replace("{vault_number}", String.valueOf(vaultNumber)));
 			return;
 		}
 
-		if (!PlayerUtil.hasPerm(getSender(), Permissions.Command.DELETE_OTHERS)) return;
+		if (!PlayerUtil.hasPerm(getSender(), Permissions.Command.RESET_OTHERS)) return;
 
 		PlayerUtil.lookupOfflinePlayerAsync(args[1], offlinePlayer -> {
 			if (!offlinePlayer.hasPlayedBefore()) {
@@ -68,16 +66,11 @@ public final class CommandDelete extends AbstractVaultSubCommand {
 				return;
 			}
 
-			CosmicVaultsAPI.deleteVault(offlinePlayer.getUniqueId(), vaultNumber);
-			Common.tell(getSender(), Localization.VaultDelete.ADMIN.replace("{player}", args[1]).replace("{vault_number}", String.valueOf(vaultNumber)));
+			CosmicVaultsAPI.resetVaultContents(offlinePlayer.getUniqueId(), vaultNumber);
+			Common.tell(getSender(), Localization.VaultReset.ADMIN.replace("{player}", args[1]).replace("{vault_number}", String.valueOf(vaultNumber)));
 
 			if (offlinePlayer.isOnline())
-				Common.tell(offlinePlayer.getPlayer(), Localization.VaultDelete.PLAYER.replace("{vault_number}", String.valueOf(vaultNumber)));
+				Common.tell(offlinePlayer.getPlayer(), Localization.VaultReset.PLAYER.replace("{vault_number}", String.valueOf(vaultNumber)));
 		});
-	}
-
-	@Override
-	protected List<String> tabComplete() {
-		return NO_COMPLETE;
 	}
 }

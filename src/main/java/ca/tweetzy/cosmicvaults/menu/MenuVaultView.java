@@ -6,15 +6,11 @@ import ca.tweetzy.cosmicvaults.impl.Vault;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
 import ca.tweetzy.tweety.collection.StrictMap;
-import ca.tweetzy.tweety.event.SimpleListener;
 import ca.tweetzy.tweety.menu.Menu;
 import ca.tweetzy.tweety.menu.model.MenuClickLocation;
 import ca.tweetzy.tweety.remain.CompMaterial;
-import ca.tweetzy.tweety.remain.Remain;
 import lombok.NonNull;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 

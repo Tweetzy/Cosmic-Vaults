@@ -33,4 +33,5 @@ public final class PlayerListeners implements Listener {
 			CosmicVaultsAPI.removeVaultPlayer(player.getUniqueId());
 		});
 	}
+
 }

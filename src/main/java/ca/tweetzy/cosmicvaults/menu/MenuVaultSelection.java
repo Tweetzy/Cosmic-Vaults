@@ -4,12 +4,14 @@ import ca.tweetzy.cosmicvaults.api.CosmicVaultsAPI;
 import ca.tweetzy.cosmicvaults.api.events.VaultOpenEvent;
 import ca.tweetzy.cosmicvaults.impl.Vault;
 import ca.tweetzy.cosmicvaults.impl.VaultPlayer;
+import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
 import ca.tweetzy.tweety.collection.StrictMap;
 import ca.tweetzy.tweety.menu.Menu;
 import ca.tweetzy.tweety.menu.model.ItemCreator;
 import ca.tweetzy.tweety.model.Replacer;
+import ca.tweetzy.tweety.remain.CompMaterial;
 import ca.tweetzy.tweety.settings.SimpleSettings;
 import lombok.NonNull;
 import org.bukkit.entity.Player;
@@ -57,7 +59,16 @@ public final class MenuVaultSelection extends Menu {
 		// open the vault
 		if (click == ClickType.LEFT) {
 			if (!Common.callEvent(new VaultOpenEvent(vault))) return;
+			if (vault.isOpen()) {
+				Common.tell(player, Localization.VaultError.VAULT_ALREADY_OPEN.replace("{vault_number}", String.valueOf(vaultNumber)));
+				return;
+			}
+
 			new MenuVaultView(vault).displayTo(player);
+		}
+
+		if (click == ClickType.RIGHT) {
+			new MenuVaultEdit(vault).displayTo(player);
 		}
 	}
 
@@ -71,7 +82,7 @@ public final class MenuVaultSelection extends Menu {
 		final Vault vault = this.opened.get(vaultNumber);
 
 		return ItemCreator
-				.of(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_MATERIAL : Settings.VaultSelectionMenu.Items.OPENED_MATERIAL)
+				.of(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_MATERIAL : CompMaterial.fromMaterial(vault.getIcon()))
 				.name(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_NAME : Settings.VaultSelectionMenu.Items.OPENED_NAME.replace("{vault_title}", vault.getName()))
 				.lores(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_LORE : Replacer.replaceArray(Settings.VaultSelectionMenu.Items.OPENED_LORE,
 						"vault_description", vault.getDescription(),

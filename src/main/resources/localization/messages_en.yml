@@ -1,3 +1,38 @@
+Vault Error:
+  Not Allowed To Use Vault: "&cYou do not have permission to use vault &4#{vault_number}"
+  Vault Already Open: "&cSomeone is already viewing your vault &4#{vault_number}"
+  Vault Opened Admin: "&cSomeone is already inspecting this vault (&4#{vault_number}&c)"
+  Blocked Item: "&cYou aren't allowed to place &4{item_name}&c within your vault"
+  Not A Number: "&cPlease enter a valid number"
+  Vault Cannot Be Zero: "&cThe vault number must be 1 or higher"
+  Cannot Find Vault: "&cCannot find that vault!"
+  Player Not Found: "&c{player} &chas not played before or we could not locate his disk data."
+  Player Has No Vaults: "&c{player} &chas no known vaults!"
+
+Prompt:
+  Enter Vault Title: "&aPlease enter the new vault title"
+  Enter Vault Description: "&aPlease enter the new vault description"
+
+Vault Icon Change:
+  Changed: "&aChanged vault icon to &5{vault_icon}"
+  No Permission: "&cYou aren't allowed to change your vault icon"
+
+Vault Name Change:
+  Changed: "&aChanged vault name to {vault_name}"
+  No Permission: "&cYou aren't allowed to change your vault name"
+
+Vault Description Change:
+  Changed: "&aChanged vault description to {vault_description}"
+  No Permission: "&cYou aren't allowed to change your vault description"
+
+Vault Reset:
+  Player: "&cYour vault &4#{vault_number}&c was reset!"
+  Admin: "&cYou reset &4{player}&c's&c vault &4#{vault_number}"
+
+Vault Delete:
+  Player: "&cYour vault &4#{vault_number}&c was deleted!"
+  Admin: "&cYou deleted &4{player}&c's&c vault &4#{vault_number}"
+
 # -------------------------------------------------------------------------------------------------
 # Do not change this value, otherwise it will corrupt your plugin installation!
 # -------------------------------------------------------------------------------------------------

@@ -2,6 +2,7 @@ package ca.tweetzy.cosmicvaults.model;
 
 import ca.tweetzy.cosmicvaults.CosmicVaults;
 import ca.tweetzy.cosmicvaults.api.enums.CosmicVaultsConstants;
+import ca.tweetzy.cosmicvaults.api.events.VaultDeleteEvent;
 import ca.tweetzy.cosmicvaults.impl.Vault;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
@@ -9,7 +10,10 @@ import ca.tweetzy.tweety.Valid;
 import ca.tweetzy.tweety.collection.StrictList;
 import ca.tweetzy.tweety.collection.StrictMap;
 import ca.tweetzy.tweety.collection.StrictSet;
+import ca.tweetzy.tweety.menu.model.ItemCreator;
+import ca.tweetzy.tweety.model.Replacer;
 import ca.tweetzy.tweety.remain.CompMaterial;
+import ca.tweetzy.tweety.settings.SimpleSettings;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Material;
@@ -60,10 +64,24 @@ public final class VaultManager {
 		}
 	}
 
-	public void resetVaultContents(@NonNull final UUID owner, final int number) {
+	public void resetVault(@NonNull final UUID owner, final int number) {
 		final Vault vault = this.getVault(owner, number);
 		Valid.checkNotNull(vault, "Tried to clear contents of a vault that does not exists (owner=" + owner.toString() + " number=" + number + ")");
+		vault.setName("&7Vault #&d" + number);
+		vault.setDescription("&7Default description");
+		vault.setIcon(CompMaterial.EMERALD.getMaterial());
 		vault.setContents(new StrictMap<>());
+		this.addEditedVault(vault.getUUID());
+	}
+
+	public void deleteVault(@NonNull final UUID owner, final int number) {
+		final Vault vault = this.getVault(owner, number);
+		Valid.checkNotNull(vault, "Tried to deleted vault that does not exists (owner=" + owner.toString() + " number=" + number + ")");
+		if (!Common.callEvent(new VaultDeleteEvent(vault))) return;
+
+		Common.runAsync(() -> CosmicVaults.getInstance().getDataFile().setField(CosmicVaultsConstants.VAULT_PARENT_NODE.getPath() + "." + vault.getUUID().toString(), null));
+		this.removeEditedVault(vault.getUUID());
+		this.removeVault(vault);
 	}
 
 	public Vault getVault(@NonNull final UUID owner, final int number) {

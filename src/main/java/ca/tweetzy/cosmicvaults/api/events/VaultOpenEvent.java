@@ -1,6 +1,8 @@
 package ca.tweetzy.cosmicvaults.api.events;
 
 import ca.tweetzy.cosmicvaults.impl.Vault;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.event.Cancellable;
 
 /**
@@ -11,19 +13,11 @@ import org.bukkit.event.Cancellable;
  */
 public final class VaultOpenEvent extends AbstractVaultEvent implements Cancellable {
 
+	@Getter
+	@Setter
 	private boolean cancelled;
 
 	public VaultOpenEvent(Vault vault) {
 		super(vault);
-	}
-
-	@Override
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean cancel) {
-		this.cancelled = cancel;
 	}
 }

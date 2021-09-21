@@ -37,6 +37,7 @@ public final class CosmicVaults extends SimplePlugin {
 	protected void onPluginStart() {
 		Common.ADD_TELL_PREFIX = true;
 		Common.ADD_LOG_PREFIX = true;
+		Common.setLogPrefix(Settings.PREFIX + " ");
 		Common.setTellPrefix(Settings.PREFIX);
 		Messenger.setInfoPrefix(Settings.PREFIX + " ");
 		Messenger.setAnnouncePrefix(Settings.PREFIX + " ");
@@ -59,7 +60,7 @@ public final class CosmicVaults extends SimplePlugin {
 		if (Settings.AutoSave.ENABLED) {
 			Common.runTimerAsync(Settings.AutoSave.SAVE_DELAY.getTimeTicks(), () ->  {
 				getVaultManager().saveVaults();
-				Common.log("Saving vault data");
+				Common.log("&aSaving vault data");
 			});
 		}
 	}

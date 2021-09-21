@@ -1,8 +1,11 @@
 package ca.tweetzy.cosmicvaults.model;
 
 import ca.tweetzy.cosmicvaults.impl.VaultPlayer;
+import ca.tweetzy.tweety.collection.StrictList;
 import ca.tweetzy.tweety.collection.StrictMap;
 import lombok.NonNull;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -34,5 +37,14 @@ public final class VaultPlayerManager {
 
 	public void removeVaultPlayer(@NonNull final UUID uuid) {
 		this.players.remove(uuid);
+	}
+
+	public StrictList<UUID> getAllPlayerIdsWithVaults() {
+		StrictList<UUID> known = new StrictList<>(this.players.keySet());
+		for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
+			if (!known.contains(offlinePlayer.getUniqueId()))
+				known.add(offlinePlayer.getUniqueId());
+		}
+		return known;
 	}
 }

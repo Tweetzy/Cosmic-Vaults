@@ -1,9 +1,9 @@
 package ca.tweetzy.cosmicvaults.settings;
 
+import ca.tweetzy.tweety.collection.StrictList;
 import ca.tweetzy.tweety.model.SimpleTime;
 import ca.tweetzy.tweety.remain.CompMaterial;
 import ca.tweetzy.tweety.settings.SimpleSettings;
-import org.bukkit.Material;
 
 import java.util.List;
 
@@ -22,6 +22,7 @@ public final class Settings extends SimpleSettings {
 
 	public static Boolean SAVE_TO_FILE_AFTER_EVERY_VAULT_CLOSE;
 	public static Boolean ONLY_SAVE_VAULTS_WITH_CHANGES;
+	public static StrictList<CompMaterial> VAULT_ICONS;
 
 	private static void init() {
 		pathPrefix(null);
@@ -32,6 +33,8 @@ public final class Settings extends SimpleSettings {
 		DEFAULT_MAX_ALLOWS_VAULTS = getInteger("Default Max Allowed Vaults");
 		SAVE_TO_FILE_AFTER_EVERY_VAULT_CLOSE = getBoolean("Save To File After Every Vault Close");
 		ONLY_SAVE_VAULTS_WITH_CHANGES = getBoolean("Only Save Vaults With Changes");
+
+		VAULT_ICONS = getMaterialList("Vault Icons");
 	}
 
 
@@ -44,6 +47,107 @@ public final class Settings extends SimpleSettings {
 			pathPrefix("Auto Save");
 			ENABLED = getBoolean("Enabled");
 			SAVE_DELAY = getTime("Save Delay");
+		}
+	}
+
+	public static final class PlayerSelectionMenu {
+
+		public static String TITLE;
+
+		private static void init() {
+			pathPrefix("Guis.Player Selection");
+			TITLE = getString("Title");
+		}
+
+		public static final class Items {
+
+			public static String PLAYER_NAME;
+			public static List<String> PLAYER_LORE;
+
+			private static void init() {
+				pathPrefix("Guis.Player Selection.Items");
+				PLAYER_NAME = getString("Player.Name");
+				PLAYER_LORE = getStringList("Player.Lore");
+			}
+		}
+	}
+
+	public static final class VaultIconMenu {
+
+		public static String TITLE;
+
+		private static void init() {
+			pathPrefix("Guis.Vault Icon Select");
+			TITLE = getString("Title");
+		}
+	}
+
+	public static final class VaultEditMenu {
+
+		public static String TITLE;
+		public static CompMaterial BACKGROUND_ITEM;
+		public static Integer ROWS;
+
+		private static void init() {
+			pathPrefix("Guis.Vault Edit");
+			TITLE = getString("Title");
+			BACKGROUND_ITEM = getMaterial("Background Item");
+			ROWS = getInteger("Rows");
+		}
+
+		public static final class Items {
+
+			public static List<Integer> NAME_SLOTS;
+			public static CompMaterial NAME_MATERIAL;
+			public static String NAME_NAME;
+			public static List<String> NAME_LORE;
+
+			public static List<Integer> DESCRIPTION_SLOTS;
+			public static CompMaterial DESCRIPTION_MATERIAL;
+			public static String DESCRIPTION_NAME;
+			public static List<String> DESCRIPTION_LORE;
+
+			public static List<Integer> ICON_SLOTS;
+			public static String ICON_NAME;
+			public static List<String> ICON_LORE;
+
+			public static List<Integer> RESET_SLOTS;
+			public static CompMaterial RESET_MATERIAL;
+			public static String RESET_NAME;
+			public static List<String> RESET_LORE;
+
+			public static List<Integer> DELETE_SLOTS;
+			public static CompMaterial DELETE_MATERIAL;
+			public static String DELETE_NAME;
+			public static List<String> DELETE_LORE;
+
+			private static void init() {
+				pathPrefix("Guis.Vault Edit.Items");
+
+				NAME_SLOTS = getList("Name.Slots", Integer.class);
+				NAME_MATERIAL = getMaterial("Name.Material");
+				NAME_NAME = getString("Name.Name");
+				NAME_LORE = getStringList("Name.Lore");
+
+				DESCRIPTION_SLOTS = getList("Description.Slots", Integer.class);
+				DESCRIPTION_MATERIAL = getMaterial("Description.Material");
+				DESCRIPTION_NAME = getString("Description.Name");
+				DESCRIPTION_LORE = getStringList("Description.Lore");
+
+				ICON_SLOTS = getList("Icon.Slots", Integer.class);
+				ICON_NAME = getString("Icon.Name");
+				ICON_LORE = getStringList("Icon.Lore");
+
+				RESET_SLOTS = getList("Reset.Slots", Integer.class);
+				RESET_MATERIAL = getMaterial("Reset.Material");
+				RESET_NAME = getString("Reset.Name");
+				RESET_LORE = getStringList("Reset.Lore");
+
+				DELETE_SLOTS = getList("Delete.Slots", Integer.class);
+				DELETE_MATERIAL = getMaterial("Delete.Material");
+				DELETE_NAME = getString("Delete.Name");
+				DELETE_LORE = getStringList("Delete.Lore");
+			}
 		}
 	}
 

@@ -1,6 +1,5 @@
 package ca.tweetzy.cosmicvaults.api.interfaces;
 
-import ca.tweetzy.tweety.collection.StrictList;
 import ca.tweetzy.tweety.collection.StrictMap;
 import lombok.NonNull;
 import org.bukkit.Material;

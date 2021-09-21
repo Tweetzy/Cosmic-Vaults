@@ -10,6 +10,8 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -81,6 +83,16 @@ public final class CosmicVaultsAPI {
 	}
 
 	/**
+	 * Used to delete a vault completely (both from the data file and tracking list)
+	 *
+	 * @param owner  is the {@link UUID} of the vault owner
+	 * @param number is the number of the {@link Vault} being deleted
+	 */
+	public void deleteVault(@NonNull final UUID owner, final int number) {
+		vaultManager.deleteVault(owner, number);
+	}
+
+	/**
 	 * Used to save vault data straight to the data file
 	 *
 	 * @param vault is the {@link Vault} being saved
@@ -110,17 +122,17 @@ public final class CosmicVaultsAPI {
 	/**
 	 * Reset a specific vault owned by a player
 	 *
-	 * @param owner is the {@link UUID} of the owning {@link Player}
+	 * @param owner  is the {@link UUID} of the owning {@link Player}
 	 * @param number is the number of the {@link Vault}
 	 */
 	public void resetVaultContents(@NonNull final UUID owner, final int number) {
-		vaultManager.resetVaultContents(owner, number);
+		vaultManager.resetVault(owner, number);
 	}
 
 	/**
 	 * Used to get a {@link Vault} owned by a player
 	 *
-	 * @param owner is the owner's {@link UUID}
+	 * @param owner  is the owner's {@link UUID}
 	 * @param number is the number of the {@link Vault}
 	 * @return null or the found {@link Vault}
 	 */
@@ -136,5 +148,9 @@ public final class CosmicVaultsAPI {
 	 */
 	public StrictMap<Integer, Vault> getVaultsByPlayer(@NonNull final UUID owner) {
 		return vaultManager.getVaultsByPlayer(owner);
+	}
+
+	public List<UUID> getAllPlayerIdsWithVaults() {
+		return Collections.unmodifiableList(vaultPlayerManager.getAllPlayerIdsWithVaults().getSource());
 	}
 }

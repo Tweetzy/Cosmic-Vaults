@@ -21,6 +21,81 @@ Save To File After Every Vault Close: false
 # and plugin disable/reload regardless if that particular vault was edited / changed.
 Only Save Vaults With Changes: true
 
+# Materials that can be used as a vault icon
+Vault Icons:
+  - LEATHER_HELMET
+  - IRON_HELMET
+  - GOLD_HELMET
+  - DIAMOND_HELMET
+  - LEATHER_CHESTPLATE
+  - IRON_CHESTPLATE
+  - GOLD_CHESTPLATE
+  - DIAMOND_CHESTPLATE
+  - LEATHER_LEGGINGS
+  - IRON_LEGGINGS
+  - GOLD_LEGGINGS
+  - DIAMOND_LEGGINGS
+  - LEATHER_BOOTS
+  - IRON_BOOTS
+  - GOLD_BOOTS
+  - DIAMOND_BOOTS
+  - IRON_SWORD
+  - GOLD_SWORD
+  - DIAMOND_SWORD
+  - IRON_PICKAXE
+  - GOLD_PICKAXE
+  - DIAMOND_PICKAXE
+  - BOW
+  - ARROW
+  - APPLE
+  - BAKED_POTATO
+  - BREAD
+  - CAKE
+  - CHICKEN
+  - BEEF
+  - PORKCHOP
+  - RABBIT
+  - COOKIE
+  - BLAZE_ROD
+  - MOB_SPAWNER
+  - SPIDER_EYE
+  - SPONGE
+  - SAND
+  - GRASS
+  - GLASS
+  - GOLD_INGOT
+  - DIAMOND
+  - IRON_INGOT
+  - PAPER
+  - BOOK
+  - REDSTONE
+  - REDSTONE_BLOCK
+  - REPEATER
+  - COMPARATOR
+  - SADDLE
+  - SHEARS
+  - SLIME_BALL
+  - SUGAR
+  - SUGAR_CANE
+  - TNT
+  - WHEAT
+  - WHEAT_SEEDS
+  - TORCH
+  - REDSTONE_TORCH
+  - SLIME_BLOCK
+  - QUARTZ
+  - QUARTZ_BLOCK
+  - RABBIT_FOOT
+  - PUFFERFISH
+  - PRISMARINE
+  - PRISMARINE_CRYSTALS
+  - CACTUS
+  - POPPY
+  - PACKED_ICE
+  - MAP
+  - MILK_BUCKET
+
+
 # Settings regarding auto save, it's recommend to use this option over the `Save To File After Every Vault Close` one
 Auto Save:
   Enabled: true
@@ -30,6 +105,54 @@ Auto Save:
 # GUI Formatting Options
 # -------------------------------------------------------------------------------------------------
 Guis:
+  Player Selection:
+    Title: "&dSelect Player"
+    Items:
+      Player:
+        Name: "&d{player_name}"
+        Lore:
+          - "&7Click to view vaults that"
+          - "&7this player owns"
+  Vault Icon Select:
+    Title: "&dSelect Vault Icon"
+  Vault Edit:
+    Title: "&dEditing Vault #{vault_number}"
+    Background Item: BLACK_STAINED_GLASS_PANE
+    Rows: 4
+    Items:
+      Name:
+        Slots: [ 11 ]
+        Material: NAME_TAG
+        Name: "&dVault Name"
+        Lore:
+          - "&7Current Name&f: {vault_title}"
+          - "&7Click to change name"
+      Description:
+        Slots: [ 13 ]
+        Material: WRITABLE_BOOK
+        Name: "&dVault Description"
+        Lore:
+          - "&7Current Description&f: {vault_description}"
+          - "&7Click to change description"
+      Icon:
+        Slots: [ 15 ]
+        Name: "&dVault Icon"
+        Lore:
+          - "&7Click to change icon"
+      Reset:
+        Slots: [ 21 ]
+        Material: END_PORTAL_FRAME
+        Name: "&dReset Vault"
+        Lore:
+          - "&7Click to reset your vault back to"
+          - "&7default settings, this does not affect contents"
+      Delete:
+        Slots: [ 23 ]
+        Material: BARRIER
+        Name: "&dDelete Vault"
+        Lore:
+          - "&7Middle-Click to delete your vault"
+          - "&cThis cannot be undone!"
   Vault Selection:
     Title: "&dCosmic Vaults &f-&7 Select Vault"
     Items:
@@ -58,7 +181,7 @@ Guis:
 # -------------------------------------------------------------------------------------------------
 # The format used in the {timestamp} placeholder (google "Java timestamp format" for options).
 # -------------------------------------------------------------------------------------------------
-Timestamp_Format: "MMMM DD, yyyy HH:mm:ss aa"
+Timestamp_Format: "MMM/dd/yyyy HH:mm:ss aa"
 
 # -------------------------------------------------------------------------------------------------
 # * THE FIRST ALIAS IS THE MAIN LABEL, PLEASE DO NOT REMOVE IT. *

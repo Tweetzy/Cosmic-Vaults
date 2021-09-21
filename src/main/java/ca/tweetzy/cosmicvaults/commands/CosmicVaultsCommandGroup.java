@@ -6,8 +6,11 @@ import ca.tweetzy.cosmicvaults.impl.Vault;
 import ca.tweetzy.cosmicvaults.impl.VaultPlayer;
 import ca.tweetzy.cosmicvaults.menu.MenuVaultSelection;
 import ca.tweetzy.cosmicvaults.menu.MenuVaultView;
+import ca.tweetzy.cosmicvaults.model.Permissions;
+import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.tweety.Common;
 import ca.tweetzy.tweety.Valid;
+import ca.tweetzy.tweety.command.PermsCommand;
 import ca.tweetzy.tweety.command.SimpleCommandGroup;
 import ca.tweetzy.tweety.settings.SimpleLocalization;
 import lombok.AccessLevel;
@@ -61,6 +64,11 @@ public final class CosmicVaultsCommandGroup extends SimpleCommandGroup {
 
 		final int vaultNumber = Integer.parseInt(arg);
 
+		if (vaultNumber <= 0) {
+			Common.tell(player, Localization.VaultError.VAULT_CANNOT_BE_ZERO);
+			return;
+		}
+
 		VaultPlayer vaultPlayer = CosmicVaultsAPI.getVaultPlayer(player);
 		if (vaultPlayer == null) {
 			CosmicVaultsAPI.addVaultPlayer(player);
@@ -68,7 +76,7 @@ public final class CosmicVaultsCommandGroup extends SimpleCommandGroup {
 		}
 
 		if (vaultNumber > vaultPlayer.getMaxAllowedVaults()) {
-			Common.tell(player,"&csmh, you don't got access to that vault");
+			Common.tell(player, Localization.VaultError.NOT_ALLOWED_TO_USE_VAULT.replace("{vault_number}", String.valueOf(vaultNumber)));
 			return;
 		}
 
@@ -81,11 +89,21 @@ public final class CosmicVaultsCommandGroup extends SimpleCommandGroup {
 
 		if (!Common.callEvent(new VaultOpenEvent(vault))) return;
 
+		// if the vault is open then stop them from opening it again
+		if (vault.isOpen()) {
+			Common.tell(player, Localization.VaultError.VAULT_ALREADY_OPEN.replace("{vault_number}", String.valueOf(vaultNumber)));
+			return;
+		}
+
 		new MenuVaultView(vault).displayTo(player);
 	}
 
 	@Override
 	protected void registerSubcommands() {
+		registerSubcommand(new CommandDelete());
+		registerSubcommand(new CommandReset());
+		registerSubcommand(new CommandAdmin());
+		registerSubcommand(new PermsCommand(Permissions.class));
 	}
 
 	@Override
