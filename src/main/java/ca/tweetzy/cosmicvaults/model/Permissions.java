@@ -57,5 +57,8 @@ public final class Permissions extends TweetyPermissions {
 
 		@Permission("Allows you to reset vaults owned by other players")
 		public static final String RESET_OTHERS = "cosmicvaults.command.reset.others";
+
+		@Permission("Allows the user to run the conversion command")
+		public static final String CONVERT = "cosmicvaults.command.convert";
 	}
 }

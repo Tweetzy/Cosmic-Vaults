@@ -33,6 +33,7 @@ public final class MenuPlayerVaults extends MenuPagged<Vault> {
 
 	public MenuPlayerVaults(@NonNull final UUID owner, @NonNull final Collection<Vault> vaults) {
 		super(null, 6, 9 * 4, vaults);
+		setTitle("&d&l" + Remain.getOfflinePlayerByUUID(owner).getName());
 		this.owner = owner;
 	}
 

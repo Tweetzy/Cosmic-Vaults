@@ -8,7 +8,6 @@ import ca.tweetzy.cosmicvaults.model.Permissions;
 import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
-import ca.tweetzy.tweety.ItemUtil;
 import ca.tweetzy.tweety.PlayerUtil;
 import ca.tweetzy.tweety.conversation.SimplePrompt;
 import ca.tweetzy.tweety.menu.Menu;

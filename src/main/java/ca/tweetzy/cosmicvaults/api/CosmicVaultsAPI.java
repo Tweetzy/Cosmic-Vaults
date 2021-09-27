@@ -27,6 +27,15 @@ public final class CosmicVaultsAPI {
 	private final VaultManager vaultManager = CosmicVaults.getVaultManager();
 
 	/**
+	 * Get a list of all known player vaults
+	 *
+	 * @return a {@link List<Vault>}
+	 */
+	public List<Vault> getAllVaults() {
+		return Collections.unmodifiableList(vaultManager.getVaults().getSource());
+	}
+
+	/**
 	 * Used to add a player to the vault player list
 	 *
 	 * @param player is the {@link Player} being added to the vault player list
@@ -150,6 +159,11 @@ public final class CosmicVaultsAPI {
 		return vaultManager.getVaultsByPlayer(owner);
 	}
 
+	/**
+	 * Get the UUIDs of all offline players
+	 *
+	 * @return a {@link List<UUID>} of known player ids
+	 */
 	public List<UUID> getAllPlayers() {
 		return Collections.unmodifiableList(vaultPlayerManager.getAllPlayers().getSource());
 	}

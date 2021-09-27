@@ -103,6 +103,7 @@ public final class CosmicVaultsCommandGroup extends SimpleCommandGroup {
 		registerSubcommand(new CommandDelete());
 		registerSubcommand(new CommandReset());
 		registerSubcommand(new CommandAdmin());
+		registerSubcommand(new CommandConvert());
 		registerSubcommand(new PermsCommand(Permissions.class));
 	}
 

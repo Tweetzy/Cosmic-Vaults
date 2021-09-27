@@ -193,6 +193,7 @@ public final class Settings extends SimpleSettings {
 			}
 		}
 	}
+
 	@Override
 	protected int getConfigVersion() {
 		return 1;
