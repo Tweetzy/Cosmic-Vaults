@@ -7,6 +7,7 @@ import ca.tweetzy.cosmicvaults.impl.VaultPlayer;
 import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
+import ca.tweetzy.tweety.MathUtil;
 import ca.tweetzy.tweety.collection.StrictMap;
 import ca.tweetzy.tweety.menu.Menu;
 import ca.tweetzy.tweety.menu.model.ItemCreator;
@@ -34,7 +35,7 @@ public final class MenuVaultSelection extends Menu {
 		this.vaultPlayer = vaultPlayer;
 		this.opened = CosmicVaultsAPI.getVaultsByPlayer(this.vaultPlayer.getPlayer().getUniqueId());
 		setTitle(Settings.VaultSelectionMenu.TITLE);
-		setSize(9 * vaultPlayer.getMaxVaultSelectionSize());
+		setSize(MathUtil.max(9, 9 * vaultPlayer.getMaxVaultSelectionSize()));
 	}
 
 	@Override

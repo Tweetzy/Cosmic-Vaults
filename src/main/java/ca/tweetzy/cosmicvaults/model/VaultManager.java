@@ -87,7 +87,11 @@ public final class VaultManager {
 
 	public StrictMap<Integer, Vault> getVaultsByPlayer(@NonNull final UUID owner) {
 		StrictMap<Integer, Vault> owned = new StrictMap<>();
-		this.vaults.getSource().stream().filter(vault -> vault.getOwner().equals(owner)).collect(Collectors.toList()).forEach(vault -> owned.put(vault.getNumber(), vault));
+		this.vaults.getSource().stream().filter(vault -> vault.getOwner().equals(owner)).collect(Collectors.toList()).forEach(vault -> {
+			if (!owned.contains(vault.getNumber())) {
+				owned.put(vault.getNumber(), vault);
+			}
+		});
 		return owned;
 	}
 

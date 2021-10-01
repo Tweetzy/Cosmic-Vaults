@@ -5,6 +5,7 @@ import ca.tweetzy.cosmicvaults.api.events.VaultCloseEvent;
 import ca.tweetzy.cosmicvaults.impl.Vault;
 import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
+import ca.tweetzy.tweety.MathUtil;
 import ca.tweetzy.tweety.collection.StrictMap;
 import ca.tweetzy.tweety.menu.Menu;
 import ca.tweetzy.tweety.menu.model.MenuClickLocation;
@@ -34,7 +35,7 @@ public final class MenuVaultView extends Menu {
 		this.returnToSelection = returnToSelection;
 		this.vault.setOpen(true);
 		setTitle(this.vault.getName());
-		setSize(9 * this.vault.getRows());
+		setSize(MathUtil.max(9, 9 * this.vault.getRows()));
 	}
 
 	@Override
