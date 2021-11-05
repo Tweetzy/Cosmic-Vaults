@@ -27,7 +27,7 @@ public final class VaultPlayer implements IVaultPlayer {
 
 	@Override
 	public int getMaxAllowedVaults() {
-		if (this.player.hasPermission("cosmicvaults.maxallowedvaults.*") && !this.player.isOp()) return Integer.MAX_VALUE;
+		if (player.hasPermission("cosmicvaults.maxallowedvaults.*")) return Integer.MAX_VALUE;
 		return this.player.getEffectivePermissions().stream().map(i -> {
 			Matcher matcher = PermissionRegex.MAX_ALLOWED_VAULTS.getPattern().matcher(i.getPermission());
 			if (matcher.matches()) return Integer.parseInt(matcher.group(1));
@@ -37,7 +37,7 @@ public final class VaultPlayer implements IVaultPlayer {
 
 	@Override
 	public int getMaxVaultSelectionSize() {
-		if (this.player.hasPermission("cosmicvaults.maxvaultselectionsize.*") && !this.player.isOp()) return 6;
+		if (this.player.hasPermission("cosmicvaults.maxvaultselectionsize.*")) return 6;
 		return this.player.getEffectivePermissions().stream().map(i -> {
 			Matcher matcher = PermissionRegex.MAX_VAULT_SELECTION_SIZE.getPattern().matcher(i.getPermission());
 			if (matcher.matches()) return Integer.parseInt(matcher.group(1));
@@ -47,7 +47,7 @@ public final class VaultPlayer implements IVaultPlayer {
 
 	@Override
 	public int getMaxVaultSize() {
-		if (this.player.hasPermission("cosmicvaults.maxvaultsize.*") && !this.player.isOp()) return 6;
+		if (this.player.hasPermission("cosmicvaults.maxvaultsize.*")) return 6;
 		return this.player.getEffectivePermissions().stream().map(i -> {
 			Matcher matcher = PermissionRegex.MAX_VAULT_SIZE.getPattern().matcher(i.getPermission());
 			if (matcher.matches()) return Integer.parseInt(matcher.group(1));

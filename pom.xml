@@ -7,7 +7,7 @@
     <artifactId>cosmicvaults</artifactId>
 
     <name>CosmicVaults</name>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -40,6 +40,11 @@
             <groupId>${tweety.path}</groupId>
             <artifactId>tweety</artifactId>
             <version>${tweety.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${tweety.path}</groupId>
+            <artifactId>auctionhouse</artifactId>
+            <version>2.36.3</version>
         </dependency>
     </dependencies>
     <build>

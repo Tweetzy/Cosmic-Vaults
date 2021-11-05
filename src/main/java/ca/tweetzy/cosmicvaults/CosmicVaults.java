@@ -58,7 +58,7 @@ public final class CosmicVaults extends SimplePlugin {
 
 		// Begin the auto save if enabled
 		if (Settings.AutoSave.ENABLED) {
-			Common.runTimerAsync(Settings.AutoSave.SAVE_DELAY.getTimeTicks(), () ->  {
+			Common.runTimerAsync(Settings.AutoSave.SAVE_DELAY.getTimeTicks(), () -> {
 				getVaultManager().saveVaults();
 				Common.log("&aSaving vault data");
 			});
