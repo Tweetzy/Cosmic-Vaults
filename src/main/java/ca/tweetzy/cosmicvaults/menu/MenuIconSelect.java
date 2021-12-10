@@ -18,6 +18,9 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
  * The current file has been created by Kiran Hart
  * Date Created: September 19 2021
@@ -29,7 +32,7 @@ public final class MenuIconSelect extends MenuPagged<CompMaterial> {
 	private final Vault vault;
 
 	public MenuIconSelect(Vault vault) {
-		super(null, 6, 9 * 4, Settings.VAULT_ICONS);
+		super(null, IntStream.rangeClosed(9, 44).boxed().collect(Collectors.toList()), Settings.VAULT_ICONS);
 		setTitle(Settings.VaultIconMenu.TITLE);
 		this.vault = vault;
 	}
@@ -41,12 +44,7 @@ public final class MenuIconSelect extends MenuPagged<CompMaterial> {
 
 	@Override
 	protected ItemStack convertToItemStack(CompMaterial item) {
-		return ItemCreator.of(item).hideTags(true).clearEnchants().clearTags().build().make();
-	}
-
-	@Override
-	protected int startingSlot() {
-		return 9;
+		return ItemCreator.of(item).hideTags(true).make();
 	}
 
 	@Override

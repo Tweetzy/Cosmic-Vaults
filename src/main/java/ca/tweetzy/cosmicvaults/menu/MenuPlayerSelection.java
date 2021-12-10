@@ -16,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The current file has been created by Kiran Hart
@@ -26,7 +28,7 @@ import java.util.UUID;
 public final class MenuPlayerSelection extends MenuPagged<UUID> {
 
 	public MenuPlayerSelection() {
-		super(null, 6, 9 * 4, CosmicVaultsAPI.getAllPlayers());
+		super(null, IntStream.rangeClosed(9, 44).boxed().collect(Collectors.toList()), CosmicVaultsAPI.getAllPlayers());
 		setTitle(Settings.PlayerSelectionMenu.TITLE);
 	}
 
@@ -34,8 +36,8 @@ public final class MenuPlayerSelection extends MenuPagged<UUID> {
 	protected ItemStack convertToItemStack(UUID item) {
 		return ItemCreator.of(SkullCreator.itemFromUuid(item))
 				.name(Settings.PlayerSelectionMenu.Items.PLAYER_NAME.replace("{player_name}", Objects.requireNonNull(Remain.getOfflinePlayerByUUID(item).getName())))
-				.lores(Settings.PlayerSelectionMenu.Items.PLAYER_LORE)
-				.build().make();
+				.lore(Settings.PlayerSelectionMenu.Items.PLAYER_LORE)
+				.make();
 	}
 
 	@Override
@@ -49,8 +51,4 @@ public final class MenuPlayerSelection extends MenuPagged<UUID> {
 		new MenuPlayerVaults(ownerUUID, foundVaults.values()).displayTo(player);
 	}
 
-	@Override
-	protected int startingSlot() {
-		return 9;
-	}
 }

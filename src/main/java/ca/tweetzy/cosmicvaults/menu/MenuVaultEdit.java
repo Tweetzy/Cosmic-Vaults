@@ -126,7 +126,7 @@ public final class MenuVaultEdit extends Menu {
 
 			@Override
 			public ItemStack getItem() {
-				return ItemCreator.of(Settings.VaultEditMenu.Items.DELETE_MATERIAL, Settings.VaultEditMenu.Items.DELETE_NAME, Settings.VaultEditMenu.Items.DELETE_LORE).build().make();
+				return ItemCreator.of(Settings.VaultEditMenu.Items.DELETE_MATERIAL, Settings.VaultEditMenu.Items.DELETE_NAME, Settings.VaultEditMenu.Items.DELETE_LORE).make();
 			}
 		};
 

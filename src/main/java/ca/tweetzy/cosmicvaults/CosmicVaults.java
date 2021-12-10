@@ -25,9 +25,6 @@ import lombok.Getter;
 public final class CosmicVaults extends SimplePlugin {
 
 	@Getter
-	private final SimpleCommandGroup mainCommand = CosmicVaultsCommandGroup.getInstance();
-
-	@Getter
 	private final DataFile dataFile = new DataFile("vaults", this);
 
 	private final VaultPlayerManager vaultPlayerManager = new VaultPlayerManager();

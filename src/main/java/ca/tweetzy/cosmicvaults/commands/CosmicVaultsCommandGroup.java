@@ -10,6 +10,7 @@ import ca.tweetzy.cosmicvaults.model.Permissions;
 import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.tweety.Common;
 import ca.tweetzy.tweety.Valid;
+import ca.tweetzy.tweety.annotation.AutoRegister;
 import ca.tweetzy.tweety.command.PermsCommand;
 import ca.tweetzy.tweety.command.SimpleCommandGroup;
 import ca.tweetzy.tweety.settings.SimpleLocalization;
@@ -26,6 +27,7 @@ import org.bukkit.entity.Player;
  * Time Created: 11:50 p.m.
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise
  */
+@AutoRegister
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CosmicVaultsCommandGroup extends SimpleCommandGroup {
 

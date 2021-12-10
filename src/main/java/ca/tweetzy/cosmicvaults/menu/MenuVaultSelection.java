@@ -77,19 +77,19 @@ public final class MenuVaultSelection extends Menu {
 		if (vaultNumber > this.vaultPlayer.getMaxAllowedVaults()) return ItemCreator
 				.of(Settings.VaultSelectionMenu.Items.LOCKED_MATERIAL)
 				.name(Settings.VaultSelectionMenu.Items.LOCKED_NAME)
-				.lores(Settings.VaultSelectionMenu.Items.LOCKED_LORE)
-				.build().make();
+				.lore(Settings.VaultSelectionMenu.Items.LOCKED_LORE)
+				.make();
 
 		final Vault vault = this.opened.get(vaultNumber);
 
 		return ItemCreator
 				.of(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_MATERIAL : CompMaterial.fromMaterial(vault.getIcon()))
 				.name(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_NAME : Settings.VaultSelectionMenu.Items.OPENED_NAME.replace("{vault_title}", vault.getName()))
-				.lores(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_LORE : Replacer.replaceArray(Settings.VaultSelectionMenu.Items.OPENED_LORE,
+				.lore(vault == null ? Settings.VaultSelectionMenu.Items.UNOPENED_LORE : Replacer.replaceArray(Settings.VaultSelectionMenu.Items.OPENED_LORE,
 						"vault_description", vault.getDescription(),
 						"vault_creation_date", SimpleSettings.TIMESTAMP_FORMAT.format(vault.getCreationDate()),
 						"vault_item_count", vault.getContents().size()
 				))
-				.build().make();
+				.make();
 	}
 }

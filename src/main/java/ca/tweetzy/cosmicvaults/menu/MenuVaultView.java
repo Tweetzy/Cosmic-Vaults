@@ -74,9 +74,4 @@ public final class MenuVaultView extends Menu {
 		if (location == MenuClickLocation.PLAYER_INVENTORY && clicked != null && Settings.BLOCKED_MATERIALS.contains(CompMaterial.fromItem(clicked))) return false;
 		return slot >= 0 && slot <= this.vault.getRows() * 9;
 	}
-
-	@Override
-	public boolean allowShiftActions() {
-		return true;
-	}
 }

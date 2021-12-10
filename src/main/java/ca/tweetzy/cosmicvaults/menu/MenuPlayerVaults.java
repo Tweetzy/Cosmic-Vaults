@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The current file has been created by Kiran Hart
@@ -32,7 +34,7 @@ public final class MenuPlayerVaults extends MenuPagged<Vault> {
 	private final UUID owner;
 
 	public MenuPlayerVaults(@NonNull final UUID owner, @NonNull final Collection<Vault> vaults) {
-		super(null, 6, 9 * 4, vaults);
+		super(null, IntStream.rangeClosed(9, 44).boxed().collect(Collectors.toList()), vaults);
 		setTitle("&d&l" + Remain.getOfflinePlayerByUUID(owner).getName());
 		this.owner = owner;
 	}
@@ -42,17 +44,17 @@ public final class MenuPlayerVaults extends MenuPagged<Vault> {
 		return ItemCreator
 				.of(CompMaterial.fromMaterial(vault.getIcon()))
 				.name(Settings.VaultSelectionMenu.Items.OPENED_NAME.replace("{vault_title}", vault.getName()))
-				.lores(Replacer.replaceArray(Settings.VaultSelectionMenu.Items.OPENED_LORE,
+				.lore(Replacer.replaceArray(Settings.VaultSelectionMenu.Items.OPENED_LORE,
 						"vault_description", vault.getDescription(),
 						"vault_creation_date", SimpleSettings.TIMESTAMP_FORMAT.format(vault.getCreationDate()),
 						"vault_item_count", vault.getContents().size()
 				))
-				.build().make();
+				.make();
 	}
 
 	@Override
 	public ItemStack getItemAt(int slot) {
-		if (slot == 4) return ItemCreator.of(SkullCreator.itemFromUuid(owner)).name("&d&l" + Remain.getOfflinePlayerByUUID(owner).getName()).build().make();
+		if (slot == 4) return ItemCreator.of(SkullCreator.itemFromUuid(owner)).name("&d&l" + Remain.getOfflinePlayerByUUID(owner).getName()).make();
 		return super.getItemAt(slot);
 	}
 
@@ -79,10 +81,5 @@ public final class MenuPlayerVaults extends MenuPagged<Vault> {
 		if (click == ClickType.RIGHT) {
 			new MenuVaultEdit(vault).displayTo(player);
 		}
-	}
-
-	@Override
-	protected int startingSlot() {
-		return 9;
 	}
 }
