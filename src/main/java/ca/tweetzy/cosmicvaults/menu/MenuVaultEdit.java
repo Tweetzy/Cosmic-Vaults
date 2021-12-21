@@ -15,6 +15,7 @@ import ca.tweetzy.tweety.menu.button.Button;
 import ca.tweetzy.tweety.menu.button.ButtonConversation;
 import ca.tweetzy.tweety.menu.button.ButtonMenu;
 import ca.tweetzy.tweety.menu.model.ItemCreator;
+import ca.tweetzy.tweety.menu.model.MenuClickLocation;
 import ca.tweetzy.tweety.model.Replacer;
 import ca.tweetzy.tweety.remain.CompMaterial;
 import org.bukkit.conversations.ConversationContext;
@@ -117,7 +118,7 @@ public final class MenuVaultEdit extends Menu {
 					return;
 				}
 
-				if (click == ClickType.MIDDLE) {
+				if (click == ClickType.DROP) {
 					CosmicVaultsAPI.deleteVault(player.getUniqueId(), vault.getNumber());
 					Common.tell(player, Localization.VaultDelete.PLAYER.replace("{vault_number}", String.valueOf(vault.getNumber())));
 					new MenuVaultSelection(CosmicVaultsAPI.getVaultPlayer(player)).displayTo(player);
@@ -151,4 +152,5 @@ public final class MenuVaultEdit extends Menu {
 	protected void onMenuClose(Player player, Inventory inventory) {
 		Common.runLater(1, player::updateInventory);
 	}
+
 }

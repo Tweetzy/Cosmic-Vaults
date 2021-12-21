@@ -12,10 +12,10 @@ import ca.tweetzy.tweety.constants.TweetyPermissions;
  */
 public final class Permissions extends TweetyPermissions {
 
-	@Permission("Controls the size of the player's vault, # must be multiples of 9 between 9 and 54")
+	@Permission("Controls the size of the player's vault, # must be between 1 - 6")
 	public static final String VAULT_SIZE = "cosmicvaults.maxvaultsize.#";
 
-	@Permission("Controls the size of the player's selection menu, # must be multiples of 9 between 9 and 54")
+	@Permission("Controls the size of the player's selection menu, # must be between 1 - 6")
 	public static final String VAULT_SELECTION_SIZE = "cosmicvaults.maxvaultselectionsize.#";
 
 	@Permission("Determines how many vaults a player can have / use # must be 1 or higher")

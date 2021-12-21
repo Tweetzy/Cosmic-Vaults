@@ -21,6 +21,9 @@ Save To File After Every Vault Close: false
 # and plugin disable/reload regardless if that particular vault was edited / changed.
 Only Save Vaults With Changes: true
 
+Default Vault Title: "&7Vault #&d{vault_number}"
+Default Vault Desc: "&7Default description"
+
 # Blocked materials
 Blocked Materials:
   - ENDER_CHEST

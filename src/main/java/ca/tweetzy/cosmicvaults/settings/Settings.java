@@ -16,6 +16,8 @@ import java.util.List;
 public final class Settings extends SimpleSettings {
 
 	public static String PREFIX;
+	public static String DEFAULT_VAULT_TITLE;
+	public static String DEFAULT_VAULT_DESC;
 	public static Integer DEFAULT_VAULT_SELECTION_MENU_SIZE;
 	public static Integer DEFAULT_VAULT_SIZE;
 	public static Integer DEFAULT_MAX_ALLOWS_VAULTS;
@@ -29,6 +31,10 @@ public final class Settings extends SimpleSettings {
 		pathPrefix(null);
 
 		PREFIX = getString("Prefix");
+
+		DEFAULT_VAULT_TITLE = getString("Default Vault Title");
+		DEFAULT_VAULT_DESC =getString("Default Vault Desc");
+
 		DEFAULT_VAULT_SELECTION_MENU_SIZE = getInteger("Default Vault Selection Menu Size");
 		DEFAULT_VAULT_SIZE = getInteger("Default Vault Size");
 		DEFAULT_MAX_ALLOWS_VAULTS = getInteger("Default Max Allowed Vaults");

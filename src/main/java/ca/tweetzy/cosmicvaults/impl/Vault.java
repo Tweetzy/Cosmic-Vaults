@@ -1,6 +1,7 @@
 package ca.tweetzy.cosmicvaults.impl;
 
 import ca.tweetzy.cosmicvaults.api.interfaces.IVault;
+import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.collection.StrictMap;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -30,7 +31,7 @@ public final class Vault implements IVault {
 	private final long creationDate;
 
 	public Vault(VaultPlayer vaultPlayer, int number) {
-		this(UUID.randomUUID(), vaultPlayer.getPlayer().getUniqueId(), number, vaultPlayer.getMaxVaultSize(), "&7Vault #&d" + number, "&7Default description", Material.EMERALD, new StrictMap<>(), false, System.currentTimeMillis());
+		this(UUID.randomUUID(), vaultPlayer.getPlayer().getUniqueId(), number, vaultPlayer.getMaxVaultSize(), Settings.DEFAULT_VAULT_TITLE.replace("{vault_number}", String.valueOf(number)), Settings.DEFAULT_VAULT_DESC, Settings.VaultSelectionMenu.Items.OPENED_MATERIAL.getMaterial(), new StrictMap<>(), false, System.currentTimeMillis());
 	}
 
 	@Override
