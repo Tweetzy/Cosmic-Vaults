@@ -8,7 +8,7 @@ import ca.tweetzy.cosmicvaults.impl.Vault;
  * Time Created: 11:43 p.m.
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise
  */
-public final class VaultCloseEvent extends AbstractVaultEvent{
+public final class VaultCloseEvent extends AbstractVaultEvent {
 
 	public VaultCloseEvent(Vault vault) {
 		super(vault);

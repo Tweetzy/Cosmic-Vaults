@@ -32,11 +32,12 @@ public final class VaultPlayerManager {
 	}
 
 	public void addVaultPlayer(@NonNull final Player player) {
-		this.players.put(player.getUniqueId(), new VaultPlayer(player));
+		if (!this.players.containsKey(player.getUniqueId()))
+			this.players.put(player.getUniqueId(), new VaultPlayer(player));
 	}
 
 	public void removeVaultPlayer(@NonNull final UUID uuid) {
-		this.players.remove(uuid);
+		this.players.removeWeak(uuid);
 	}
 
 	public StrictList<UUID> getAllPlayers() {

@@ -26,6 +26,7 @@ public final class Settings extends SimpleSettings {
 	public static Boolean ONLY_SAVE_VAULTS_WITH_CHANGES;
 	public static StrictList<CompMaterial> VAULT_ICONS;
 	public static StrictList<CompMaterial> BLOCKED_MATERIALS;
+	public static Boolean USE_AVAILABLE_MATERIALS;
 
 	private static void init() {
 		pathPrefix(null);
@@ -33,7 +34,7 @@ public final class Settings extends SimpleSettings {
 		PREFIX = getString("Prefix");
 
 		DEFAULT_VAULT_TITLE = getString("Default Vault Title");
-		DEFAULT_VAULT_DESC =getString("Default Vault Desc");
+		DEFAULT_VAULT_DESC = getString("Default Vault Desc");
 
 		DEFAULT_VAULT_SELECTION_MENU_SIZE = getInteger("Default Vault Selection Menu Size");
 		DEFAULT_VAULT_SIZE = getInteger("Default Vault Size");
@@ -43,6 +44,7 @@ public final class Settings extends SimpleSettings {
 
 		VAULT_ICONS = getMaterialList("Vault Icons");
 		BLOCKED_MATERIALS = getMaterialList("Blocked Materials");
+		USE_AVAILABLE_MATERIALS = getBoolean("Use Available Materials");
 	}
 
 

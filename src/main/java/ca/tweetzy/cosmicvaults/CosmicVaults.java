@@ -2,7 +2,6 @@ package ca.tweetzy.cosmicvaults;
 
 import ca.tweetzy.cosmicvaults.api.CosmicVaultsAPI;
 import ca.tweetzy.cosmicvaults.api.DataFile;
-import ca.tweetzy.cosmicvaults.commands.CosmicVaultsCommandGroup;
 import ca.tweetzy.cosmicvaults.listeners.PlayerListeners;
 import ca.tweetzy.cosmicvaults.model.VaultManager;
 import ca.tweetzy.cosmicvaults.model.VaultPlayerManager;
@@ -10,9 +9,8 @@ import ca.tweetzy.cosmicvaults.settings.Settings;
 import ca.tweetzy.tweety.Common;
 import ca.tweetzy.tweety.Messenger;
 import ca.tweetzy.tweety.MinecraftVersion;
-import ca.tweetzy.tweety.command.SimpleCommandGroup;
 import ca.tweetzy.tweety.model.SpigotUpdater;
-import ca.tweetzy.tweety.plugin.SimplePlugin;
+import ca.tweetzy.tweety.plugin.TweetyPlugin;
 import ca.tweetzy.tweety.remain.Remain;
 import lombok.Getter;
 
@@ -22,7 +20,7 @@ import lombok.Getter;
  * Time Created: 11:39 p.m.
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise
  */
-public final class CosmicVaults extends SimplePlugin {
+public final class CosmicVaults extends TweetyPlugin {
 
 	@Getter
 	private final DataFile dataFile = new DataFile("vaults", this);
@@ -88,14 +86,14 @@ public final class CosmicVaults extends SimplePlugin {
 	}
 
 	public static CosmicVaults getInstance() {
-		return (CosmicVaults) SimplePlugin.getInstance();
+		return (CosmicVaults) TweetyPlugin.getInstance();
 	}
 
 	public static VaultPlayerManager getVaultPlayerManager() {
-		return ((CosmicVaults) SimplePlugin.getInstance()).vaultPlayerManager;
+		return ((CosmicVaults) TweetyPlugin.getInstance()).vaultPlayerManager;
 	}
 
 	public static VaultManager getVaultManager() {
-		return ((CosmicVaults) SimplePlugin.getInstance()).vaultManager;
+		return ((CosmicVaults) TweetyPlugin.getInstance()).vaultManager;
 	}
 }

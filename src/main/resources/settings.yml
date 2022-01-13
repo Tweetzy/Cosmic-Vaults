@@ -28,6 +28,10 @@ Default Vault Desc: "&7Default description"
 Blocked Materials:
   - ENDER_CHEST
 
+# if true, it will ignore the Vault Icons section
+# and automatically grab any valid inventory material
+Use Available Materials: true
+
 # Materials that can be used as a vault icon
 Vault Icons:
   - LEATHER_HELMET
@@ -158,7 +162,7 @@ Guis:
         Material: BARRIER
         Name: "&dDelete Vault"
         Lore:
-          - "&7Middle-Click to delete your vault"
+          - "&7Press Drop Key to delete your vault"
           - "&cThis cannot be undone!"
   Vault Selection:
     Title: "&dCosmic Vaults &f-&7 Select Vault"
@@ -193,7 +197,7 @@ Timestamp_Format: "MMM/dd/yyyy HH:mm:ss aa"
 # -------------------------------------------------------------------------------------------------
 # * THE FIRST ALIAS IS THE MAIN LABEL, PLEASE DO NOT REMOVE IT. *
 # -------------------------------------------------------------------------------------------------
-Command_Aliases: [cosmicvaults, pv, playervaults]
+Command_Aliases: [ cosmicvaults, pv, playervaults ]
 
 # -------------------------------------------------------------------------------------------------
 # What language should we use for messages? If it exists, the language file will be copied

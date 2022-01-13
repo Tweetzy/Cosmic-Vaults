@@ -3,6 +3,7 @@ package ca.tweetzy.cosmicvaults.menu;
 import ca.tweetzy.cosmicvaults.api.CosmicVaultsAPI;
 import ca.tweetzy.cosmicvaults.api.events.VaultIconChangeEvent;
 import ca.tweetzy.cosmicvaults.impl.Vault;
+import ca.tweetzy.cosmicvaults.model.InventorySafeMaterials;
 import ca.tweetzy.cosmicvaults.model.Permissions;
 import ca.tweetzy.cosmicvaults.settings.Localization;
 import ca.tweetzy.cosmicvaults.settings.Settings;
@@ -32,7 +33,7 @@ public final class MenuIconSelect extends MenuPagged<CompMaterial> {
 	private final Vault vault;
 
 	public MenuIconSelect(Vault vault) {
-		super(null, IntStream.rangeClosed(9, 44).boxed().collect(Collectors.toList()), Settings.VAULT_ICONS);
+		super(null, IntStream.rangeClosed(9, 44).boxed().collect(Collectors.toList()), Settings.USE_AVAILABLE_MATERIALS ? InventorySafeMaterials.get() : Settings.VAULT_ICONS);
 		setTitle(Settings.VaultIconMenu.TITLE);
 		this.vault = vault;
 	}

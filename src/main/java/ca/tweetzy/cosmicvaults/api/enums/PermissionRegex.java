@@ -16,9 +16,8 @@ public enum PermissionRegex {
 
 	MAX_ALLOWED_VAULTS(Pattern.compile("cosmicvaults\\.maxallowedvaults\\.(\\d+)")),
 	MAX_VAULT_SELECTION_SIZE(Pattern.compile("cosmicvaults\\.maxvaultselectionsize\\.(\\d+)")),
-	MAX_VAULT_SIZE(Pattern.compile("cosmicvaults\\.maxvaultsize\\.(\\d+)"))
-
-	,;
+	MAX_VAULT_SIZE(Pattern.compile("cosmicvaults\\.maxvaultsize\\.(\\d+)")),
+	;
 
 	@Getter
 	final Pattern pattern;

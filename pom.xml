@@ -7,7 +7,7 @@
     <artifactId>cosmicvaults</artifactId>
 
     <name>CosmicVaults</name>
-    <version>3.2.0</version>
+    <version>3.3.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -15,15 +15,15 @@
         <jarName>CosmicVaults</jarName>
         <main.class>${project.groupId}.${project.artifactId}.${project.name}</main.class>
         <java.version>16</java.version>
-        <tweety.version>1.7.2</tweety.version>
-        <tweety.path>ca.tweetzy</tweety.path>
+        <tweety.version>1.10.0</tweety.version>
+        <tweety.path>com.github.kiranhart</tweety.path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
         <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/kiranhart/*</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -38,7 +38,7 @@
     <dependencies>
         <dependency>
             <groupId>${tweety.path}</groupId>
-            <artifactId>tweety</artifactId>
+            <artifactId>Tweety</artifactId>
             <version>${tweety.version}</version>
         </dependency>
     </dependencies>
@@ -75,7 +75,7 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <artifactSet>
                         <includes>
-                            <include>${tweety.path}:tweety*</include>
+                            <include>${tweety.path}:Tweety*</include>
                         </includes>
                     </artifactSet>
                     <filters>

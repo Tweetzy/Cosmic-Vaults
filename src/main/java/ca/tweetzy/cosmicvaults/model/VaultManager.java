@@ -42,11 +42,11 @@ public final class VaultManager {
 	private final StrictSet<UUID> editedVaults = new StrictSet<>();
 
 	public void addVault(@NonNull final Vault vault) {
-		this.vaults.add(vault);
+		this.vaults.addIfNotExist(vault);
 	}
 
 	public void removeVault(@NonNull final Vault vault) {
-		this.vaults.remove(vault);
+		this.vaults.removeWeak(vault);
 	}
 
 	public void addEditedVault(@NonNull final UUID uuid) {
@@ -56,16 +56,14 @@ public final class VaultManager {
 	}
 
 	public void removeEditedVault(@NonNull final UUID uuid) {
-		if (this.editedVaults.contains(uuid)) {
-			this.editedVaults.remove(uuid);
-		}
+		this.editedVaults.removeWeak(uuid);
 	}
 
 	public void resetVault(@NonNull final UUID owner, final int number) {
 		final Vault vault = this.getVault(owner, number);
 		Valid.checkNotNull(vault, "Tried to clear contents of a vault that does not exists (owner=" + owner.toString() + " number=" + number + ")");
-		vault.setName("&7Vault #&d" + number);
-		vault.setDescription("&7Default description");
+		vault.setName(Settings.DEFAULT_VAULT_TITLE.replace("{vault_number}", String.valueOf(number)));
+		vault.setDescription(Settings.DEFAULT_VAULT_DESC);
 		vault.setIcon(CompMaterial.EMERALD.getMaterial());
 		vault.setContents(new StrictMap<>());
 		this.addEditedVault(vault.getUUID());
@@ -128,7 +126,7 @@ public final class VaultManager {
 				final StrictMap<Integer, ItemStack> vaultContents = new StrictMap<>();
 
 				ConfigurationSection vaultItems = CosmicVaults.getInstance().getDataFile().getConfigField("Vaults." + key + ".contents");
-				if (vaultItems != null && vaultItems.getKeys(false).size() != 0)  {
+				if (vaultItems != null && vaultItems.getKeys(false).size() != 0) {
 					vaultItems.getKeys(false).forEach(slot -> {
 						vaultContents.put(Integer.parseInt(slot), CosmicVaults.getInstance().getDataFile().getConfigField("Vaults." + key + ".contents." + slot));
 					});

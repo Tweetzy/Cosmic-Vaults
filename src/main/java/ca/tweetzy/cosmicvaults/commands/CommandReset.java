@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  * Time Created: 1:37 p.m.
  * Usage of any code found within this class is prohibited unless given explicit permission otherwise
  */
-public final class CommandReset extends AbstractVaultSubCommand{
+public final class CommandReset extends AbstractVaultSubCommand {
 
 	public CommandReset() {
 		super("reset");

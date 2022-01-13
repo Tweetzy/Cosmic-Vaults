@@ -15,7 +15,6 @@ import ca.tweetzy.tweety.menu.button.Button;
 import ca.tweetzy.tweety.menu.button.ButtonConversation;
 import ca.tweetzy.tweety.menu.button.ButtonMenu;
 import ca.tweetzy.tweety.menu.model.ItemCreator;
-import ca.tweetzy.tweety.menu.model.MenuClickLocation;
 import ca.tweetzy.tweety.model.Replacer;
 import ca.tweetzy.tweety.remain.CompMaterial;
 import org.bukkit.conversations.ConversationContext;
